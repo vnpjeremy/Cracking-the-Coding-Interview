@@ -19,7 +19,3 @@
    NOTE: This solution means the last node's deletion will be a special
    case. It may have to be linear. */
 
-void removeNode()
-{
-
-}
