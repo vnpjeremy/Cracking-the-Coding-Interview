@@ -51,6 +51,9 @@ public:
     {
     }
 
+    void removeNode(T const& data);
+    void removeNode(Node<T>* node);
+
     Node<T>* find(T data) //const&?
     {
         Node<T>* cur = m_head;
@@ -78,7 +81,7 @@ public:
 
     //MC
 
-    void push_back(T data)
+    void push_back(T const& data)
     {
         Node<T>* newNode = new Node<T>(data);
         if(!m_head)
@@ -89,6 +92,18 @@ public:
             while(cur->m_next)
                 cur = cur->m_next;
             cur->m_next = newNode;
+        }
+    }
+
+    void push_front(T const& data)
+    {
+        Node<T>* newNode = new Node<T>(data);
+        if(!m_head)
+            m_head = newNode;
+        else
+        {
+            newNode->m_next = m_head;
+            m_head = newNode;
         }
     }
 
@@ -124,3 +139,33 @@ public:
 
     Node<T>* m_head;
 };
+
+template <class T>
+void SLList<T>::removeNode(T const& data)
+{
+    Node<T>* removeCandidate = find(data);
+    if(!removeCandidate)
+        return;
+
+    if(!removeCandidate->m_next)
+        return;//special case; Won't be O(1) time for this guy. Probably.
+               //Can easily do O(n), naively.
+
+    Node<T>* tmp = removeCandidate->m_next;
+    removeCandidate->m_data = removeCandidate->m_next->m_data;
+    removeCandidate->m_next = removeCandidate->m_next->m_next;
+    delete tmp;
+}
+
+template <class T>
+void SLList<T>::removeNode(Node<T>* removeCandidate)
+{
+    if(!removeCandidate->m_next)
+        return;//special case; Won't be O(1) time for this guy. Probably.
+               //Can easily do O(n), naively.
+
+    Node<T>* tmp = removeCandidate->m_next;
+    removeCandidate->m_data = removeCandidate->m_next->m_data;
+    removeCandidate->m_next = removeCandidate->m_next->m_next;
+    delete tmp;
+}
