@@ -4,7 +4,7 @@
 template <class T>
 class SLList
 {
-private:
+public:
     template <class T>
     class Node
     {
@@ -51,7 +51,7 @@ public:
     void removeNode(T const& data);
     void removeNode(Node<T>* node);
 
-    Node<T>* find(T data) //const&?
+    Node<T>* find(T const& data) const//const&?
     {
         Node<T>* cur = m_head;
         while(cur)
@@ -119,7 +119,19 @@ public:
         }
     }
 
-    std::vector<T> flatten()
+    size_t size() const
+    {
+        size_t size = 0;
+        Node<T>* cur = m_head;
+        while(cur)
+        {
+            ++size;
+            cur = cur->m_next;
+        }
+        return size;
+    }
+
+    std::vector<T> flatten() const
     {
         std::vector<T> output;
         Node<T>* tmp = m_head;
