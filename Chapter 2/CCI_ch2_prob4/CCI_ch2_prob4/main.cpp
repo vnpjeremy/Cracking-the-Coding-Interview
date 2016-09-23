@@ -26,12 +26,15 @@ void SLList<T>::partition(T const& data)
     if(!node)
         return;
 
+    /* If less, push front. If greater, push back.
+       Stop when your iterator is the original last
+       element. */
     T const              partitionData = node->m_data;
+    T const              tailData = m_tail->m_data;
     SLList<T>::Node<T>*  cur = m_head;
     while(cur && cur->m_next)
     {
-        bool last = cur->m_next == m_tail ? true : false;
-        //less, then head. Else, tail.
+        bool const lastOne = cur->m_data == tailData ? true : false;
         if(cur->m_data < partitionData)
         {
             push_front(cur->m_data);
@@ -50,16 +53,13 @@ void SLList<T>::partition(T const& data)
             int dummy = 3;
         }
 
-        if(last)
+        if(lastOne)
             break;
     }
 }
 
 int main()
 {
-    //Develop insertion before & after that is constant\
-    //push_back: straightforward
-    //push_front: rename the head
     {
         SLList<int> list2;
         list2.push_back(31);
@@ -73,25 +73,10 @@ int main()
     list1.push_back(81);
     list1.push_back(19);
     list1.push_back(4);
-    //1 9 81 19 4 31
-    //same
-    //1 9 19 4 31 81
-    //4 1 9 19 31 81
-    //4 1 9 19 81 31
 
     std::vector<int> out = list1.flatten();
-
-    list1.partition(9);
-
-    //list1.push_front(31);
-    //list1.push_front(1);
-    //list1.push_front(9);
-    //list1.push_front(81);
-    //list1.push_front(19);
-    //list1.push_front(4);
-
-    //std::vector<int> out = list1.flatten();
+    list1.partition(19);
+    std::vector<int> out2 = list1.flatten();
 
     int dummy0 = 0;
-
 }
