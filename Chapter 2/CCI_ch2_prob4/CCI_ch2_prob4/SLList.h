@@ -151,8 +151,22 @@ void SLList<T>::removeNode(T const& data)
         return;
 
     if(!removeCandidate->m_next)
-        return;//special case; Won't be O(1) time for this guy. Probably.
-               //Can easily do O(n), naively.
+    {
+        Node<T>* tmp = m_head;
+        while(tmp)
+        {
+            if(tmp->m_next->m_data == removeCandidate->m_data)
+                break;
+            tmp = tmp->m_next;
+        }
+
+        delete removeCandidate;
+        tmp->m_next = nullptr;
+        m_tail = tmp;
+        return;
+    }
+    //special case; Won't be O(1) time for this guy. Probably.
+    //Can easily do O(n), naively.
 
     Node<T>* tmp = removeCandidate->m_next;
     removeCandidate->m_data = removeCandidate->m_next->m_data;
@@ -164,8 +178,21 @@ template <class T>
 void SLList<T>::removeNode(Node<T>* removeCandidate)
 {
     if(!removeCandidate->m_next)
-        return;//special case; Won't be O(1) time for this guy. Probably.
-               //Can easily do O(n), naively.
+    {
+        Node<T>* tmp = m_head;
+        while(tmp)
+        {
+            if(tmp->m_next->m_data == removeCandidate->m_data)
+                break;
+            tmp = tmp->m_next;
+        }
+
+        delete removeCandidate;
+        tmp->m_next = nullptr;
+        m_tail = tmp;
+        return;
+    }//Won't be O(1) time for this guy. Probably.
+     //Can easily do O(n), naively.
 
     Node<T>* tmp = removeCandidate->m_next;
     removeCandidate->m_data = removeCandidate->m_next->m_data;

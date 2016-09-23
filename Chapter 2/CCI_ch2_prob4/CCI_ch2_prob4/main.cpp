@@ -12,10 +12,9 @@
 //it in the implementation file in global scope. (Don't do this.)
 
 //will be linear, but won't be sorted.
-//Actually, will be linear only if push_back and push_front are constant. Right
-//now, push_back is linear, but storing m_tail in the data structure will make it
-//constant.
+//Actually, will be linear only if push_back and push_front are constant. They are.
 
+//NOTE2: This algorithm isn't stable. It is in-place for O(n) time and O(1) space.
 template <class T>
 void SLList<T>::partition(T const& data)
 {
@@ -32,7 +31,7 @@ void SLList<T>::partition(T const& data)
     T const              partitionData = node->m_data;
     T const              tailData = m_tail->m_data;
     SLList<T>::Node<T>*  cur = m_head;
-    while(cur && cur->m_next)
+    while(cur)
     {
         bool const lastOne = cur->m_data == tailData ? true : false;
         if(cur->m_data < partitionData)
@@ -44,7 +43,6 @@ void SLList<T>::partition(T const& data)
         else if(cur->m_data == partitionData)
         {
             cur = cur->m_next;
-            continue;
         }
         else
         {
@@ -74,8 +72,10 @@ int main()
     list1.push_back(19);
     list1.push_back(4);
 
+    //verified: 19, 9, 4
+
     std::vector<int> out = list1.flatten();
-    list1.partition(19);
+    list1.partition(1);
     std::vector<int> out2 = list1.flatten();
 
     int dummy0 = 0;
