@@ -47,7 +47,8 @@ public:
 
 public:
     SLList() :
-        m_head()
+        m_head(),
+        m_tail()
     {
     }
 
@@ -85,13 +86,14 @@ public:
     {
         Node<T>* newNode = new Node<T>(data);
         if(!m_head)
+        {
             m_head = newNode;
+            m_tail = m_head;
+        }
         else
         {
-            Node<T>* cur = m_head;
-            while(cur->m_next)
-                cur = cur->m_next;
-            cur->m_next = newNode;
+            m_tail->m_next = newNode;
+            m_tail = newNode;
         }
     }
 
@@ -138,6 +140,7 @@ public:
     }
 
     Node<T>* m_head;
+    Node<T>* m_tail;
 };
 
 template <class T>
