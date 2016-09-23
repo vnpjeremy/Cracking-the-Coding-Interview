@@ -68,16 +68,30 @@ public:
     }
 
     //Rule of 3/5: Need a CC
-    /* SLList(SLList<T> const& rhs)
+    SLList(SLList<T> const& rhs)
     {
-    if(m_head)
-    {
-
+        Node<T>* cur = rhs.m_head;
+        while(cur)
+        {
+            push_back(cur->m_data);
+            cur = cur->m_next;
+        }
     }
-    }*/
 
     //Rule of 3/5: Need a CA
-
+     SLList<T>& operator=(SLList<T> const& rhs)
+     {
+         if(this != rhs)
+         {
+             Node<T>* cur = rhs.m_head;
+             while(cur)
+             {
+                 push_back(cur->m_data);
+                 cur = cur->m_next;
+             }
+         }
+         return *this;
+     }
     //MA
 
     //MC

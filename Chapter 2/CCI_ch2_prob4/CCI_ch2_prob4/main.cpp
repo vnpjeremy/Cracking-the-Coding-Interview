@@ -14,7 +14,7 @@
 //will be linear, but won't be sorted.
 //Actually, will be linear only if push_back and push_front are constant. They are.
 
-//NOTE2: This algorithm isn't stable. It is in-place for O(n) time and O(1) space.
+/* O(n) time and O(1) space, but NOT stable. Version 1.*/
 template <class T>
 void SLList<T>::partition(T const& data)
 {
@@ -38,7 +38,6 @@ void SLList<T>::partition(T const& data)
         {
             push_front(cur->m_data);
             removeNode(cur);
-            int dummy = 3;
         }
         else if(cur->m_data == partitionData)
         {
@@ -48,12 +47,41 @@ void SLList<T>::partition(T const& data)
         {
             push_back(cur->m_data);
             removeNode(cur);
-            int dummy = 3;
         }
 
         if(lastOne)
             break;
     }
+}
+
+/* O(n) time O(n) space stable algorithm. Version 2. */
+template <class T>
+SLList<T> partition( SLList<T> const& input,
+                     T const&         partitionVal )
+{
+    /* Anything less */
+    SLList<T> newList1, newList2, newList3;
+    SLList<T>::Node<T>*  cur = input.m_head;
+    while(cur)
+    {
+        if(cur->m_data < partitionVal)
+            newList1.push_back(cur->m_data);
+        else if(cur->m_data == partitionVal)
+            newList2.push_back(cur->m_data);
+        else
+            newList3.push_back(cur->m_data);
+        cur = cur->m_next;
+    }
+
+    newList1.m_tail->m_next = newList2.m_head;
+    newList1.m_tail = newList2.m_tail;
+    newList1.m_tail->m_next = newList3.m_head;
+
+    newList1.m_tail = newList3.m_tail;
+    newList2.m_head = nullptr;
+    newList3.m_head = nullptr;
+
+    return newList1;
 }
 
 int main()
@@ -70,12 +98,14 @@ int main()
     list1.push_back(9);
     list1.push_back(81);
     list1.push_back(19);
+    list1.push_back(9);
     list1.push_back(4);
 
-    //verified: 19, 9, 4
+    SLList<int>      part1 = partition(list1, 19);
+    std::vector<int> out0 = part1.flatten();
 
     std::vector<int> out = list1.flatten();
-    list1.partition(1);
+    list1.partition(9);
     std::vector<int> out2 = list1.flatten();
 
     int dummy0 = 0;
