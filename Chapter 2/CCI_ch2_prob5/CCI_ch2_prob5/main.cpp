@@ -7,13 +7,16 @@
 
 #include "SLList.h"
 #include <vector>
+//#include <iterator>
 
 //As noted previously, DO NOT put templates in global scope in implementation
 //files. Put in headers.
 
 //could be made a binary operator()
+
+//enable_if for integral, floating_point types??
 template <class T>
-SLList<T> add( SLList<T> const& lhs, SLList<T> const& rhs )
+SLList<T> add( SLList<T> & lhs, SLList<T> & rhs )
 {
     /* Will add the trailing nodes first, then proceed
        to leading ones. Leading nodes may not align. */
@@ -28,17 +31,23 @@ SLList<T> add( SLList<T> const& lhs, SLList<T> const& rhs )
     if(size1 < size2)
     {
         size_t const diff = size2 - size1;
+        T const      val = {};
+        for(size_t ii = 0; ii < diff; ++ii)
+            lhs.push_front(val);
     }
     else if(size2 < size1)
     {
-
+        size_t const diff = size1 - size2;
+        T const      val = {};
+        for(size_t ii = 0; ii < diff; ++ii)
+            rhs.push_front(val);
     }
 
     SLList<T>::Node<T> const *curLHS = lhs.m_head, *curRHS = rhs.m_head;
     SLList<T>      output;
     while(curLHS || curRHS)
     {
-        //T num1(), num2();
+        //T carry
         if(curLHS && curRHS)
         {
             output.push_front(curLHS->m_data + curRHS->m_data);
