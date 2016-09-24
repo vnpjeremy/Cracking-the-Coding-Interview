@@ -20,6 +20,9 @@
    as the inverse would require one to reverse-traverse
    the LL, an extremely inefficent process unless double-linkage
    exists. */
+
+/* This algorithm is O(n + m) time and O(1) space. (O(n) space if
+   you consider the output) */
 template <class T, typename = std::enable_if_t<std::is_integral<T>::value>>
 SLList<T> add( SLList<T> const& lhs, SLList<T> const& rhs )
 {
@@ -32,7 +35,7 @@ SLList<T> add( SLList<T> const& lhs, SLList<T> const& rhs )
         T const rhsVal = curRHS ? curRHS->m_data : 0;
         T const sum = lhsVal + rhsVal + carry;
         T const answer = sum % 10;
-        carry = sum > 10 ? 1 : 0;        
+        carry = sum > 10 ? 1 : 0;
         output.push_back(answer);
 
         curLHS = curLHS ? curLHS->m_next : curLHS;
