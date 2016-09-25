@@ -34,7 +34,7 @@ bool SLList<T>::hasCircularLinkage(Node<T> & repeated) const
 
     SLList<T>::Node<T> *tortise = m_head, *hare = m_head;
     size_t             mu = 0,            lam = 0;
-    while(tortise != hare || mu = 0)
+    while(tortise != hare || mu == 0)
     {
         tortise = tortise->m_next;
         hare = hare->m_next;
@@ -47,7 +47,14 @@ bool SLList<T>::hasCircularLinkage(Node<T> & repeated) const
         ++mu;
     }
 
-    return false;
+    tortise = m_head; //what if they collided at the head?
+
+    //iterate both 1 step at a time, that is a cycle point
+
+    //iterate hare 1 step while keeping tortise constant. This will
+    //go over the loop once and get its length.
+
+    return true;
 }
 
 int main()
@@ -55,15 +62,17 @@ int main()
     SLList<int> list1;
     list1.push_back(1);
     list1.push_back(2);
-    list1.push_back(3);
+    list1.push_back(3);//--
     list1.push_back(4);
     list1.push_back(5);
+    list1.push_back(6);
+    list1.push_back(7);//--
 
     /* Note: the simple destructor written for this won't handle
        corruption. */
     SLList<int>::Node<int>* end = list1.m_tail;
-    SLList<int>::Node<int>* mid = list1.find(3);
-    end->m_next = mid;
+    SLList<int>::Node<int>* cyclBeg = list1.find(3);
+    end->m_next = cyclBeg;
 
     SLList<int>::Node<int> culprit;
     bool hasRepeat = list1.hasCircularLinkage(culprit);
