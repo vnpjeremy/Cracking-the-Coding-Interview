@@ -29,7 +29,7 @@ public:
 
         Node<T>& operator=(Node<T> const& rhs)
         {
-            if(this != rhs)
+            if(this != &rhs)
             {
                 m_next = rhs.m_next;
                 m_data = rhs.m_data;
@@ -131,6 +131,8 @@ public:
         return size;
     }
 
+    bool hasCircularLinkage(Node<T> & repeated) const;
+
     std::vector<T> flatten() const
     {
         std::vector<T> output;
@@ -146,6 +148,11 @@ public:
 
     void clear()
     {
+        Node<T> repeat;
+        if(hasCircularLinkage(repeat))
+            return; //leak memory for now. Corruption. Destructors should not
+                    //throw, but something will have to give here.
+
         while(m_head)
         {
             Node<T>* tmp = m_head->m_next;
