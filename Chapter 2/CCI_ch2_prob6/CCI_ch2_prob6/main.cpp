@@ -45,12 +45,15 @@ bool SLList<T>::hasCircularLinkage(Node<T> & repeated) const
             return false;//has an end
     } while(tortise != hare);
 
+    /* Full cycle special case. This result must be on the cycle. */
     if(tortise == m_head)
     {
         repeated = *tortise;
-        return true; //Full cycle special case. This result must be on the cycle.
+        return true; 
     }
 
+    /* Due to an algebra detail, the distance the two iterators have to travel
+       to the cyle beginning is now precisely equal.*/
     size_t mu = 0, lam = 0;
     tortise = m_head;
     while(tortise != hare)
@@ -84,8 +87,7 @@ int main()
     list1.push_back(6);
     list1.push_back(7);
 
-    /* Note: the simple destructor written for this won't handle
-       corruption. */
+    /* Note: the simple destructor written for this won't handle corruption. */
     SLList<int>::Node<int>* end = list1.m_tail;
     SLList<int>::Node<int>* cyclBeg = list1.find(3);
     end->m_next = cyclBeg;
