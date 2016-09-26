@@ -45,9 +45,15 @@ bool SLList<T>::hasCircularLinkage(Node<T> & repeated) const
             return false;//has an end
     } while(tortise != hare);
 
-    size_t             mu = 0, lam = 0;
-    tortise = m_head; //what if they collided at the head? <-- impossible unless the cycle includes the head. special case?
-    while(tortise != hare || mu == 0)
+    if(tortise == m_head)
+    {
+        repeated = *tortise;
+        return true; //Full cycle special case. This result must be on the cycle.
+    }
+
+    size_t mu = 0, lam = 0;
+    tortise = m_head;
+    while(tortise != hare)
     {
         tortise = tortise->m_next;
         hare = hare->m_next;
@@ -55,11 +61,14 @@ bool SLList<T>::hasCircularLinkage(Node<T> & repeated) const
     }
     repeated = *tortise;
    
+#if 0
+    /* Find the length of the cyle, not needed in this example */
     while(tortise != hare || lam == 0)
     {
         hare = hare->m_next;
         ++lam;
     }
+#endif
 
     return true;
 }
@@ -78,14 +87,10 @@ int main()
     /* Note: the simple destructor written for this won't handle
        corruption. */
     SLList<int>::Node<int>* end = list1.m_tail;
-    SLList<int>::Node<int>* cyclBeg = list1.find(6);
+    SLList<int>::Node<int>* cyclBeg = list1.find(3);
     end->m_next = cyclBeg;
 
     SLList<int>::Node<int> culprit;
-    bool hasRepeat = list1.hasCircularLinkage(culprit);
-
-    //build one with 2 nodes that reference each other
-    //same as circular example??
-
-    int debug = 0;
+    bool const hasRepeat = list1.hasCircularLinkage(culprit);
+    int  debug = 0;
 }
