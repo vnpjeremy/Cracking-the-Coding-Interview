@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <stack>
 
 template <class T>
 class SLList
@@ -106,6 +107,9 @@ public:
             m_tail = newNode;
         }
     }
+
+    void recursivePopulateReverse(Node<T> const*  cur,
+                                  std::stack<T> & output);
 
     void push_front(T const& data)
     {

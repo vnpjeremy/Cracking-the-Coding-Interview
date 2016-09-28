@@ -8,7 +8,7 @@
    Part 2: the digits are in forward order. Repeat.*/
 
 #include "SLList.h"
-#include <vector>
+
 
 //As noted previously, DO NOT put templates in global scope in implementation
 //files. Put in headers.
@@ -45,21 +45,22 @@ SLList<T> add( SLList<T> const& lhs, SLList<T> const& rhs )
     return output;
 }
 
-template <class T, typename = std::enable_if_t<std::is_integral<T>::value>>
-void addRecursive(SLList<T> const& lhs, SLList<T> const& rhs, SLList<T> & output)
+template <class T>
+inline void SLList<T>::recursivePopulateReverse( Node<T> const*   cur,
+                                                 std::stack<T> &  output)
 {
-    //The book solves this recursively, but that doesn't make sense to me.
-    //It feels like shoehorning the solution in when a perfectly logical
-    //loop approach would work fine. Will try if there is time.
+    if(!cur)
+        return;
+    output.push(cur->m_data);
+    recursivePopulateReverse(cur->m_next, output);
 }
 
-
 template <class T>
-SLList<T> addForwardFormat(SLList<T> & lhs, SLList<T> & rhs)
+inline SLList<T> addForwardFormat(SLList<T> & lhs, SLList<T> & rhs)
 {
-#if 0
     /* For non-reverse storage in LL containers: */
     /* Padding will be faster if .size() is O(1) instead of O(n). */
+    SLList<T> output;
     size_t const size1 = lhs.size(), size2 = rhs.size();
     if(size1 < size2)
     {
@@ -75,9 +76,23 @@ SLList<T> addForwardFormat(SLList<T> & lhs, SLList<T> & rhs)
         for(size_t ii = 0; ii < diff; ++ii)
             rhs.push_front(val);
     }
-#endif
 
-    return SLList<T>();
+    std::stack<T>       stack1, stack2;
+    lhs.recursivePopulateReverse(lhs.m_head, stack1);
+    rhs.recursivePopulateReverse(rhs.m_head, stack2);
+
+    T carry = {};
+    while(!stack1.empty())
+    {
+        T const sum = stack1.top() + stack2.top() + carry;
+        T const answer = sum % 10;
+        carry = sum > 10 ? 1 : 0;
+        stack1.pop();
+        stack2.pop();
+        output.push_front(answer);
+    }
+
+    return output;
 }
 
 
@@ -89,11 +104,11 @@ int main()
     num1.push_front(6);
 
     num2.push_front(6);
-    std::vector<int> verify1  = num1.flatten();
-    std::vector<int> verify2 = num2.flatten();
+    std::vector<int> numerand1  = num1.flatten();
+    std::vector<int> numberand2 = num2.flatten();
 
     SLList<int>      output = add(num1, num2);
-    std::vector<int> verify3 = output.flatten();
+    std::vector<int> verifyAddition = output.flatten();
 
     SLList<double> disabledListType1, disabledListType2;
     disabledListType1.push_back(2.01);
@@ -106,11 +121,11 @@ int main()
     num3.push_back(6);
 
     num4.push_front(6);
-    std::vector<int> verify5 = num3.flatten();
-    std::vector<int> verify6 = num4.flatten();
+    std::vector<int> numerand3 = num3.flatten();
+    std::vector<int> numerand4 = num4.flatten();
 
-    SLList<int>      output2 = addForwardFormat(num1, num2);
-    std::vector<int> verify7 = output.flatten();
+    SLList<int>      output2 = addForwardFormat(num3, num4);
+    std::vector<int> output2Verify = output2.flatten();
 
     int dummy = 0;
 }
