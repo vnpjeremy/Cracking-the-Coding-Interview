@@ -134,9 +134,11 @@ public:
 
     //bool hasCircularLinkage(Node<T> & repeated) const;
 
-    bool      isPalindrome() const;
-    void      reverse();
-    SLList<T> outputReverse() const;
+    bool            isPalindrome() const;
+    void            reverse();
+    SLList<T>       outputReverse() const;
+    void            traverseRecursive(Node<T>* cur, std::vector<T> & output) const;
+    void            traverseReverse() const;
 
     std::vector<T> flatten() const
     {
