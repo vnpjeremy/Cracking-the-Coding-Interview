@@ -5,6 +5,7 @@
    Push and Pop should also be O(1) time.
    
    Solutions by: vnpjeremy*/
+#include "StackWithMin.h"
 
 int main()
 {
