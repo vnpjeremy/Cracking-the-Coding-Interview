@@ -32,17 +32,26 @@ public:
     {
         if(badIncrement(stackNumber))
             throw std::length_error("stack overlap");
+
         m_data[m_indices[stackNumber]++] = input;
     }
 
     T & top( stackID  stackNumber )
     {
-        return  m_data[m_indices[stackNumber]];
+        size_t const len = m_stackSize / 3;
+        if(m_indices[stackNumber] == stackNumber * len)
+            throw std::length_error("empty stack");
+
+        return  m_data[m_indices[stackNumber] - 1];
     }
 
     void pop( stackID  stackNumber )
     {
-        m_data[m_indices[stackNumber]--] = 0;
+        size_t const len = m_stackSize / 3;
+        if(m_indices[stackNumber] == stackNumber * len)
+            throw std::length_error("empty stack");
+
+        m_data[--m_indices[stackNumber]] = 0;
     }
 
     ~arrayStackTriplet()

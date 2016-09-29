@@ -30,6 +30,8 @@ int main()
         newstack1.pop(arrayStackTriplet<int>::stackID::Stack_3);
     }
 
+    //newstack1.pop(arrayStackTriplet<int>::stackID::Stack_1);
+
 
     int dummy = 0;
 }
