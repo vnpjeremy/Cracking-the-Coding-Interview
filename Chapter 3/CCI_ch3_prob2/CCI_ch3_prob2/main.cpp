@@ -9,5 +9,12 @@
 
 int main()
 {
+    StackWithMin<int> st1;
+    for(size_t ii = 0; ii < 8; ++ii)
+        st1.push(ii);
+    st1.push(-4);
+    st1.push(41);
+
+
     //test
 }
