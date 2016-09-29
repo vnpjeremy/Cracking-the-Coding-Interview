@@ -105,6 +105,15 @@ public:
         return m_head ? false : true;
     }
 
+    void pop()
+    {
+        if(empty())
+            throw std::length_error("empty list");
+        Node<T>* tmp = m_head->m_next;
+        delete m_head;
+        m_head = tmp;
+    }
+
     void push_back(T const& data)
     {
         Node<T>* newNode = new Node<T>(data);
@@ -132,7 +141,7 @@ public:
         }
     }
 
-    std::vector<T> flatten()
+    std::vector<T> flatten() const
     {
         std::vector<T> output;
         Node<T>* tmp = m_head;

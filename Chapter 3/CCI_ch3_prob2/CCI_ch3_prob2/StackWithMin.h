@@ -25,7 +25,6 @@ public:
     StackWithMin() :
         m_data()
     {
-
     }
 
     /* Must be O(1) */
@@ -43,27 +42,25 @@ public:
     {
         /* Should check to see if we are losing a min */
         if(m_data.front() == m_minRecord.top())
-        {
-            //losing a min
-        }
-        //if we pop the min, and the access to min is O(1), how
-        //do we keep finding the new min from being O(n)??
+            m_minRecord.pop();
 
-        //if pop == min
-        //pop
-        //pop min from record,
-        //replace min with previous min from record
+        m_data.pop();
     }
 
     T & top()
     {
+        return m_data.front();
+    }
 
+    std::vector<T> flatten() const
+    {
+        return m_data.flatten();
     }
 
     /* Must be O(1) */
     T & min()
     {
-
+        return m_minRecord.top();
     }
 
 
