@@ -1,4 +1,6 @@
 #pragma once
+#include <stdexcept>
+
 template <class T>
 class arrayStackTriplet
 {
@@ -20,28 +22,28 @@ public:
         m_indices()
     {
         m_data = new T[m_stackSize];
-        m_indices[1] = size - 1;
-        m_indices[2] = 2 * size - 1;
+        m_indices[1] = size;
+        m_indices[2] = 2 * size;
     }
 
     /* Indexed {0,1,2} */
     void push( T const& input, 
-               size_t   stackNumber )
+               stackID   stackNumber )
     {
-        if(stackNumber > 2)
-            throw std::length_error("stack does not exist");
-        m_data[stackNumber++] = input;
+        if(badIncrement(stackNumber))
+            throw std::length_error("stack overlap");
+        m_data[m_indices[stackNumber]++] = input;
     }
 
-    T & top()
+    T & top( stackID  stackNumber )
     {
-
+        return  m_data[m_indices[stackNumber]];
     }
 
-    void pop()
+    void pop( stackID  stackNumber )
     {
-
-    }    
+        m_data[m_indices[stackNumber]--] = 0;
+    }
 
     ~arrayStackTriplet()
     {
@@ -51,15 +53,20 @@ public:
 private:
 
     /* Detect attempts to overlap into next logical container */
-    bool badIncrement(size_t const stackNumber) const
+    bool badIncrement(stackID stackNumber) const
     {
-        size_t next = stackNumber + 1 > 2 ? 0 : stackNumber + 1;
-        if(m_data[stackNumber] == m_data[next])
-            return true;
-        return false;
+        bool bad = false;
+        if(stackNumber < 2)
+        {
+            if(m_indices[stackNumber] == m_indices[stackNumber + 1])
+                bad = true;
+        }
+        if(m_indices[stackNumber] == m_stackSize)
+            bad = true;
+        return bad;
     }
 
-    int m_data[];
-    int m_stackSize;
-    int m_indices[3];
+    T      *m_data;
+    size_t m_stackSize;
+    size_t m_indices[3];
 };
