@@ -5,7 +5,7 @@
 
    Solutions by vnpjeremy.
 */
-
+#include "ArrayStack.h"
 int main()
 {
 
