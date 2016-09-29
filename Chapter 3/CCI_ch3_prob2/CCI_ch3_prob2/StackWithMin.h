@@ -11,9 +11,12 @@
    use space as a tradeoff. Otherwise we would always have to search the
    length of the stack for the new Min value.
    
-   This really really pushes at a *sorted* stack. That would be a tree,
-   and although we could do fairly well in terms of complexity, I don't
-   think we'd get O(1) no matter how clever our sorting algorithm. */
+   This really really pushes at a *sorted* stack, but we won't ever get
+   O(1) time with that. 
+   
+   Add a stack that records not only the min value, but previous min values,
+   to account for the requirement that pop() remain O(1) time while keeping
+   m_min up-to-date. */
 
 template <class T>
 class StackWithMin
@@ -28,7 +31,10 @@ public:
     /* Must be O(1) */
     void push(T const& data)
     {
-        /* Should check to see if we are adding a min */
+        if(m_data.empty() || data < m_minRecord.top())
+            m_minRecord.push(data);
+
+        m_data.push_back(data);
     }
 
 
@@ -36,9 +42,17 @@ public:
     void pop()
     {
         /* Should check to see if we are losing a min */
-
+        if(m_data.front() == m_minRecord.top())
+        {
+            //losing a min
+        }
         //if we pop the min, and the access to min is O(1), how
         //do we keep finding the new min from being O(n)??
+
+        //if pop == min
+        //pop
+        //pop min from record,
+        //replace min with previous min from record
     }
 
     T & top()

@@ -93,6 +93,18 @@ public:
 
     //MC
 
+    T & front()
+    {
+        if(empty())
+            throw std::length_error("empty list");
+        return m_head->m_data;
+    }
+
+    bool empty() const
+    {
+        return m_head ? false : true;
+    }
+
     void push_back(T const& data)
     {
         Node<T>* newNode = new Node<T>(data);
