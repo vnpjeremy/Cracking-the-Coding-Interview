@@ -21,11 +21,16 @@
    
    Approach 1: 2*N space solution: each node will need a T data member 
    to store the snapshot of the min at that time.
+
+   Approach 2: Basically only store the T min data member when it changes.
+   The above solution will have duplicates; this condenses them. Apart from
+   the benefit of storage minimization, it is a bit cleaner to implement,
+   compared to changing the Node class and affiliated methods.
  */
 int main()
 {
     /* Approach 1:  */
-    SLList<int> listWithDiffNodes;
+    SLListWithAlteredNode<int> listWithDiffNodes;
     /* Stack:
     5   min: 1
     1   min: 1
@@ -51,6 +56,22 @@ int main()
     }
 
     /* Approach 2: */
+    StackWithMin<int> listWithStack;
+    listWithStack.push(2);
+    listWithStack.push(6);
+    listWithStack.push(4);
+    listWithStack.push(1);
+    listWithStack.push(5);
+
+   // std::vector<int> testMins = listWithStack.flattenMins();
+
+    for(size_t ii = 0; ii < 5; ++ii)
+    {
+        int const tmp1 = listWithStack.top();
+        int const min1 = listWithStack.min();
+        listWithStack.pop();
+    }
+
     int dummy = 0;
 
     //test

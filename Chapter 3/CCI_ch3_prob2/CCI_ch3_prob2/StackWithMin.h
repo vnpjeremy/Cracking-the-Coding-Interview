@@ -17,10 +17,8 @@ public:
     {
         if(m_data.empty() || data < m_minRecord.top())
             m_minRecord.push(data);
-
-        m_data.push_back(data);
+        m_data.push_front(data);
     }
-
 
     /* Must beo O(1) */
     void pop()
@@ -28,7 +26,6 @@ public:
         /* Should check to see if we are losing a min */
         if(m_data.front() == m_minRecord.top())
             m_minRecord.pop();
-
         m_data.pop();
     }
 
@@ -60,8 +57,8 @@ public:
         return m_minRecord.top();
     }
 
-
 private:
     SLList<T>     m_data;
     std::stack<T> m_minRecord;
 };
+
