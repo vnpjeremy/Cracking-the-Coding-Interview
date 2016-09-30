@@ -12,20 +12,25 @@ private:
     public:
         Node(T data) :
             m_next(),
-            m_data(data)
+            m_data(data),
+            m_min()
         {
+
         }
 
         Node() :
             m_next(),
-            m_data()
+            m_data(),
+            m_min()
         {
+
         }
 
         Node(Node<T> const& rhs)
         {
             m_next = rhs.m_next;
             m_data = rhs.m_data;
+            m_min = rhs.m_min;
         }
 
         Node<T>& operator=(Node<T> const& rhs)
@@ -34,18 +39,21 @@ private:
             {
                 m_next = rhs.m_next;
                 m_data = rhs.m_data;
+                m_min = rhs.m_min;
             }
             return *this;
         }
 
         Node<T>* m_next;
         T        m_data;
+        T        m_min;
     };
 
 public:
     SLList() :
         m_head(),
-        m_tail()
+        m_tail(),
+        m_min()
     {
     }
 
@@ -109,9 +117,20 @@ public:
     {
         if(empty())
             throw std::length_error("empty list");
+
+        T minTmp = m_head->m_min;
+
         Node<T>* tmp = m_head->m_next;
         delete m_head;
         m_head = tmp;
+
+        if(minTmp == m_min)
+            m_min = m_head->m_min;
+    }
+
+    T min() const
+    {
+        return m_min;
     }
 
     void push_back(T const& data)
@@ -119,25 +138,50 @@ public:
         Node<T>* newNode = new Node<T>(data);
         if(!m_head)
         {
-            m_head = newNode;
-            m_tail = m_head;
+            m_head = newNode;       //make first node this new one
+            m_tail = m_head;        //since we have a tail, it's also the head for a one-element container
+            m_tail->m_min = data;   //the min for this node will be this, the only value present
+            this->m_min = data;     //same for the list minimum value
         }
         else
         {
-            m_tail->m_next = newNode;
-            m_tail = newNode;
+            m_tail->m_next = newNode;   //append node to tail
+            m_tail = newNode;           //move the m_tail to this new node that has been created
+            if(data < m_min)
+            {
+                m_tail->m_min = data;   //set this node's min to the data value
+                this->m_min = data;     //set the list's min to the data value
+            }
+            else
+            {
+                m_tail->m_min = this->m_min; //set this node's min to the list's current value, since it's lower
+            }
         }
     }
-
+    
+    
     void push_front(T const& data)
     {
         Node<T>* newNode = new Node<T>(data);
         if(!m_head)
+        {
             m_head = newNode;
+            m_head->m_min = data;   //the min for this node will be this, the only value present
+            this->m_min = data;     //same for the list minimum value
+        }
         else
         {
             newNode->m_next = m_head;
             m_head = newNode;
+            if(data < m_min)
+            {
+                m_head->m_min = data;   //set this node's min to the data value
+                this->m_min = data;     //set the list's min to the data value
+            }
+            else
+            {
+                m_head->m_min = this->m_min; //set this node's min to the list's current value, since it's lower
+            }
         }
     }
 
@@ -148,6 +192,19 @@ public:
         while(tmp)
         {
             output.push_back(tmp->m_data);
+            tmp = tmp->m_next;
+        }
+
+        return output;
+    }
+
+    std::vector<T> flattenMins() const
+    {
+        std::vector<T> output;
+        Node<T>* tmp = m_head;
+        while(tmp)
+        {
+            output.push_back(tmp->m_min);
             tmp = tmp->m_next;
         }
 
@@ -198,6 +255,7 @@ public:
 
     Node<T>* m_head;
     Node<T>* m_tail;
+    T        m_min;
 };
 
 template <class T>
