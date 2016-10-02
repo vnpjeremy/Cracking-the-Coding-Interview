@@ -16,5 +16,11 @@
    cutoff. */
 int main()
 {
+    SpillStack<int> testStack1;
+    for(size_t ii = 0; ii < 12; ++ii)
+        testStack1.push(static_cast<int>(ii));
 
+    std::vector<int> out1 = testStack1.printCurrentStack();
+
+    int dummy = 0;
 }
