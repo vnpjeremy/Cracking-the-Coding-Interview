@@ -72,6 +72,14 @@ public:
             --m_stackIndex;
     }
 
+    /* Careful! Doesn't move the m_stackIndex. */
+    void popAt(size_t const stackIndex)
+    {
+        assert(stackIndex < m_stacks.size());
+        assert(!m_stacks[stackIndex].empty());
+        m_stacks[stackIndex].pop();
+    }
+
     /* CAUTION: This is debug-only, and for stacks!
        It will empty the stack off with pop()s! */
     std::vector<T> printCurrentStack()

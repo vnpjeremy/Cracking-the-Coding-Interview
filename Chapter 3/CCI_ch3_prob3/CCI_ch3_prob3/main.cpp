@@ -17,6 +17,13 @@
 /* So this seems to me to be just "implement a stack that has a vector
    of stacks acting as one, where elements progress after a designated 
    cutoff. */
+
+/* Implementing a function popAt() would be sort of easy - however one
+   would have to carefully consider that it would leave non-terminal 
+   stacks less than 'full'. If one popAt()'ed enough to empty a non-terminal
+   stack, more code would have to be inserted to make sure moving the stack
+   index to that stack wouldn't result in an assert for being empty, but rather
+   continued on to stack N - 1. */
 int main()
 {
     SpillStack<int> testStack1;
