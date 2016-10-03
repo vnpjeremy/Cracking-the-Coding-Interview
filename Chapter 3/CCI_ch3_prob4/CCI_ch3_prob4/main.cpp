@@ -9,7 +9,12 @@
 
 /* It is well-known that this problem can be solved in 
    2*N-1 operations. */
+
+#include "hanoiStacks.h"
+
 int main()
 {
+    hanoiStacks stack1(5);
 
+    int debug = 0;
 }
