@@ -11,18 +11,14 @@ class hanoiStacks
 public:
     hanoiStacks() noexcept :
         m_numberOfDiscs(3),
-        m_stack1(),
-        m_stack2(),
-        m_stack3()
+        m_stacks()
     {
         populateFirstStack();
     }
 
     hanoiStacks(size_t const discCount) noexcept :
         m_numberOfDiscs(discCount),
-        m_stack1(),
-        m_stack2(),
-        m_stack3()
+        m_stacks()
     {
         populateFirstStack();
     }
@@ -30,34 +26,44 @@ public:
     void populateFirstStack() noexcept
     {
         for(size_t ii = 0; ii < m_numberOfDiscs; ++ii)
-            m_stack1.push(ii);
+            m_stacks[0].push(ii);
     }
 
-    void moveAtoB()
+    void solve()
     {
-        assert(!m_stack1.empty());
-        m_stack2.push(m_stack1.top());
-        m_stack1.pop();
-    }
-    
-    void moveBtoC()
-    {
-        assert(!m_stack2.empty());
-        m_stack3.push(m_stack2.top());
-        m_stack2.pop();
-    }
-
-    void moveAtoC()
-    {
-        assert(!m_stack1.empty());
-        m_stack3.push(m_stack1.top());
-        m_stack1.pop();
+        SolveTOH(m_numberOfDiscs, 1, 2, 3);
     }
 
 private:
-    /* Could be an array of stack[3] as well. */
-    size_t        m_numberOfDiscs;
-    std::stack<int> m_stack1;
-    std::stack<int> m_stack2;
-    std::stack<int> m_stack3;
+
+    /* Using these three generalized steps:
+       (1) Move N-1 from A to B, using C, freeing up the biggest disc, N.
+       (2) Move disc N to C
+       (3) Move the other N-1 discs from B to C, using A
+
+      We can outline a recursive call. For example, w/ 3 discs:
+      2^3- 1 = 7 moves
+      Recursive (1):
+      1. Disc 3: A->C (1->3)
+      2. Disc 2: 1->2
+      3. Disc 3: 3->2
+
+      (2)
+      4. Disc 1: 1->3
+
+      Recursive (3)
+      5. Disc 3: 2->1
+      6. Disc 2: 2->3
+      7. Disc 3: 1->3
+    */
+    void SolveTOH( size_t const numberOfDiscs,
+                   size_t const indexOfTowerOrigin,
+                   size_t const indexOfTowerBuffer,
+                   size_t const indexOfTowerTarget )
+    {
+
+    }
+
+    size_t          m_numberOfDiscs;
+    std::stack<int> m_stacks[3];
 };

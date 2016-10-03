@@ -12,9 +12,14 @@
 
 #include "hanoiStacks.h"
 
+/* There are 3 generalized steps here:
+   (1) Move N-1 from A to B, using C, freeing up the biggest disc, N.
+   (2) Move disc N to C
+   (3) Move the other N-1 discs from B to C, using A
+*/
 int main()
 {
-    hanoiStacks stack1(5);
+    hanoiStacks stack1(12);
 
     int debug = 0;
 }
