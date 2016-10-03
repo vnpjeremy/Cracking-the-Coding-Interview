@@ -19,7 +19,7 @@
 */
 int main()
 {
-    hanoiStacks stack1(3);
+    hanoiStacks stack1(6);
     stack1.solve();
 
     int debug = 0;
