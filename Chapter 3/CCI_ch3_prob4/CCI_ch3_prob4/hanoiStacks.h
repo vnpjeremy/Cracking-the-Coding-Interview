@@ -23,15 +23,9 @@ public:
         populateFirstStack();
     }
 
-    void populateFirstStack() noexcept
-    {
-        for(size_t ii = 0; ii < m_numberOfDiscs; ++ii)
-            m_stacks[0].push(ii);
-    }
-
     void solve()
     {
-        SolveTOH(m_numberOfDiscs, 1, 2, 3);
+        SolveTOH(m_numberOfDiscs, 0, 1, 2);
     }
 
 private:
@@ -61,7 +55,30 @@ private:
                    size_t const indexOfTowerBuffer,
                    size_t const indexOfTowerTarget )
     {
+        if(numberOfDiscs > 0)
+        {
+            /* Origin to buffer */
+            SolveTOH(numberOfDiscs - 1, indexOfTowerOrigin, indexOfTowerTarget, indexOfTowerBuffer);
+            printf("Move a disc from %d to %d \n", indexOfTowerOrigin, indexOfTowerTarget);
+            moveDisc(indexOfTowerOrigin, indexOfTowerTarget);
+            /* Buffer to target */
+            SolveTOH(numberOfDiscs - 1, indexOfTowerBuffer, indexOfTowerOrigin, indexOfTowerTarget);
+        }
+    }
 
+    void populateFirstStack() noexcept
+    {
+        for(size_t ii = 0; ii < m_numberOfDiscs; ++ii)
+            m_stacks[0].push(ii);
+    }
+
+    void moveDisc( size_t const sourceTower,
+                   size_t const targetTower )
+    {
+        //assert(sourceTower < 3 && targetTower < 3); //Probably extranneous.
+        assert(!m_stacks[sourceTower].empty());
+        m_stacks[targetTower].push(m_stacks[sourceTower].top());
+        m_stacks[sourceTower].pop();
     }
 
     size_t          m_numberOfDiscs;
