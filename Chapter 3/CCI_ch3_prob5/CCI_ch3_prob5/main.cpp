@@ -5,8 +5,11 @@
    
    Solutions by: vnpjeremy*/
 
+#include "QueueWithStacks.h"
 
 int main()
 {
+    QueueWithStacks<int> queue1;
 
+    int dummy = 0;
 }
