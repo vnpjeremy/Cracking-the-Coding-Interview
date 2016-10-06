@@ -58,10 +58,50 @@
 #include <random>
 #include <stack>
 
+
+/* So here is the 'naive' solution, O(n^2), not a 'real' sorting algorithm
+   in that sense. The top element will be a tmp variable for comparison.
+   Everything gets pushed to stack2, and then all but this minimum or
+   anything less than it gets pushed back.
+   
+   Because each sequential minimum will be greater than the previous minimum,
+   previous minimums are not popped back from stack2, and eventually everything
+   ends up there properly ordered. 
+ 
+   I think we can do better than this, frankly. There are several sets of operations
+   that can end up as undone (e.g., when a local minimum is found, then is obsoleted)
+   But the restrictions make things tricky.
+ */
 template <class T>
 inline void sort(std::stack<T> & input)
 {
-    std::stack<T> buffer;
+    if(input.empty())
+        return;
+
+    std::stack<T>  buffer;
+    while(!input.empty())
+    {
+        /* Pop off the top element of the data stack for comparison. */
+        T tmp = input.top();
+        input.pop();
+
+        /* If there is stuff in the buffer, put it all back in the data
+           stack when the element in question is NOT less than the tmp */
+        while(!buffer.empty() && tmp < buffer.top())
+        {
+            input.push(buffer.top());
+            buffer.pop();
+        }
+
+        /* Now that we've verified that the tmp is the lowest candidate 
+           element other than the ones currently in buffer, push that into
+           buffer as well. This will be the next one in the sorted list. */
+        buffer.push(tmp);        
+    }
+
+    /*  */
+
+    int dummy = 0;
 }
 
 int main()
