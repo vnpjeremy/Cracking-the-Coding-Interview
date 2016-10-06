@@ -78,6 +78,16 @@ inline void sort(std::stack<T> & input)
     if(input.empty())
         return;
 
+    size_t countDebug = 0;
+
+    /* Note: While this is O(n^2), if there are 5 elements, this algorithm
+       will likely end up with more than just the 25 inner-loop operations 
+       expected in an ordinary O(n^2) for loop. Any subsequent new minimum
+       will start all over and perform O(n^2) operations. 
+       
+       Thus, if the absolute minimum is at the bottom of the stack, this
+       method will perform 2*O(n^2) operations at minimum, or 50 in the 
+       case of 5 elements. */
     std::stack<T>  buffer;
     while(!input.empty())
     {
@@ -96,10 +106,15 @@ inline void sort(std::stack<T> & input)
         /* Now that we've verified that the tmp is the lowest candidate 
            element other than the ones currently in buffer, push that into
            buffer as well. This will be the next one in the sorted list. */
-        buffer.push(tmp);        
+        buffer.push(tmp);
     }
 
-    /*  */
+    /* Load everything back */
+    while(!buffer.empty())
+    {
+        input.push(buffer.top());
+        buffer.pop();
+    }
 
     int dummy = 0;
 }
