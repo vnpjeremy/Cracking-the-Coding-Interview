@@ -10,8 +10,7 @@ public:
     enum class Animal
     {
         Dog,
-        Cat,
-        LongestResident
+        Cat
     };
 
     Shelter() noexcept :
@@ -25,13 +24,9 @@ public:
                T const&     goingIn )
     {
         if(preference == Animal::Dog)
-        {
             m_dogs.push(AnimalNode(m_curTimeStamp++, goingIn));
-        }
         else
-        {
             m_cats.push(AnimalNode(m_curTimeStamp++, goingIn));
-        }
     }
 
     void popDog( T & animalOutput )
@@ -49,21 +44,35 @@ public:
     }
 
     /* A pop operation with query arguments */
-    void adopt( Animal const preference,
-                T &          animalOutput )
+    void adoptAnimal( Animal const preference,
+                      T &          animalOutput )
     {
         if(preference == Animal::Dog)
             popDog(animalOutput);
-        else if(preference == Animal::Cat)
-            popCat(animalOutput);
         else
+            popCat(animalOutput);
+    }
+
+    void adoptLongestResident( T & animalOutput )
+    {        
+        assert(!m_dogs.empty() || !m_cats.empty());        
+        if(!m_dogs.empty() && !m_cats.empty())
         {
-            //what if there are only dogs left? shouldn't assert
-            assert(!m_dogs.empty() || !m_cats.empty());
+            /* Case 1: both are populated and timestamp decides */
             if(m_dogs.front().m_timestamp < m_cats.front().m_timestamp)
                 popDog(animalOutput);
             else
                 popCat(animalOutput);
+        }
+        else if(!m_dogs.empty())
+        {
+            /* Case 2: Only dogs left */
+            popDog(animalOutput);
+        }
+        else
+        {
+            /* Case 3: Only cats left */
+            popCat(animalOutput);
         }
     }
 
@@ -74,6 +83,8 @@ private:
        (unsigned long long) 
    */
     size_t                 m_curTimeStamp;
+
+    /* Convenience struct for uniform storage/access in queues */
     struct AnimalNode
     {
         AnimalNode() noexcept :

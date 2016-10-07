@@ -28,7 +28,29 @@ int main()
     std::uniform_int_distribution<> dogsAndCats(-100, 100);
     std::uniform_int_distribution<> numberOfConsecutive(1, 6);
 
+    /* Test: adopt cats when dogs are empty */
     shelter1.push(Shelter<int>::Animal::Cat, 2);
+    shelter1.push(Shelter<int>::Animal::Cat, 3);
+    shelter1.push(Shelter<int>::Animal::Cat, 4);
+
+    /* */
+    int cat1 = -1;
+    shelter1.adoptAnimal(Shelter<int>::Animal::Cat, cat1);
+    assert(cat1 == 2);
+
+    int cat2 = -1;
+    shelter1.adoptLongestResident(cat2);
+    assert(cat2 == 3);
+
+    shelter1.push(Shelter<int>::Animal::Dog, 22);
+    shelter1.push(Shelter<int>::Animal::Dog, 20);
+    shelter1.push(Shelter<int>::Animal::Dog, 35);
+
+    int dog1 = -1;
+    shelter1.adoptAnimal(Shelter<int>::Animal::Dog, dog1);
+    assert(dog1 == 22);
+
+
 
     int dummy = 0;
 }
