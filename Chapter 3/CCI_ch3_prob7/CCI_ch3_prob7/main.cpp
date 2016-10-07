@@ -50,7 +50,18 @@ int main()
     shelter1.adoptAnimal(Shelter<int>::Animal::Dog, dog1);
     assert(dog1 == 22);
 
+    int anim1 = -1;
+    shelter1.adoptLongestResident(anim1);
+    assert(anim1 == 4);
 
+    /* Only dogs now that 4 is popped */
+    int anim2 = -1;
+    shelter1.adoptLongestResident(anim2);
+    assert(anim2 ==  20);
+
+    int dog2 = -1;
+    shelter1.adoptLongestResident(dog2);
+    assert(dog2 == 35);
 
     int dummy = 0;
 }
