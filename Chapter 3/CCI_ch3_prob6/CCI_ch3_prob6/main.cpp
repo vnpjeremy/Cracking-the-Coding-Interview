@@ -55,6 +55,7 @@
         possibilities here. Heap requires a non-stack container.
        */
 //#include <chrono>
+#include <cassert>
 #include <random>
 #include <stack>
 
@@ -77,8 +78,6 @@ inline void sort(std::stack<T> & input)
 {
     if(input.empty())
         return;
-
-    size_t countDebug = 0;
 
     /* Note: While this is O(n^2), if there are 5 elements, this algorithm
        will likely end up with more than just the 25 inner-loop operations 
@@ -115,21 +114,34 @@ inline void sort(std::stack<T> & input)
         input.push(buffer.top());
         buffer.pop();
     }
-
-    int dummy = 0;
 }
 
 int main()
 {
-    std::stack<int>                 stack1;
+    std::stack<int>                 stack1, stack2;
     std::random_device              rDev;
     std::mt19937                    gen(rDev());
     std::uniform_int_distribution<> dis(-100, 100);
 
+    stack2.push(1);
     for(size_t ii = 0; ii < 7; ++ii)
         stack1.push(dis(gen));
 
     sort(stack1);
+
+    int tmp1 = stack1.top();
+    while(!stack1.empty())
+    {
+        stack1.pop();
+        if(!stack1.empty())
+        {
+            assert(tmp1 <= stack1.top());
+            tmp1 = stack1.top();
+        }
+    }
+
+    /* Empty case is handled. What about 1 element? */
+    sort(stack2);
 
     int dummy = 0;
 }
