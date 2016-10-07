@@ -28,5 +28,7 @@ int main()
     std::uniform_int_distribution<> dogsAndCats(-100, 100);
     std::uniform_int_distribution<> numberOfConsecutive(1, 6);
 
+    shelter1.push(Shelter<int>::Animal::Cat, 2);
+
     int dummy = 0;
 }
