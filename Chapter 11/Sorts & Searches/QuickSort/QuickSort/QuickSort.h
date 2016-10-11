@@ -72,7 +72,7 @@ inline void QuickSort( T* arr,
         /* Partitioned for left and right. Repeate for those two sub-arrays, until
            we end up with size == 1. Watch recursion depth for super-big arrays? */
         QuickSort(arr, begElement, leftItr);
-        QuickSort(arr, rightItr, lastElement);
+        QuickSort(arr, rightItr, oneElementPast);
     }
     
     int dummy = 9;
