@@ -30,55 +30,52 @@ size_t inline size1(T (&arr)[N])
    QuickSort will be recursive, so pass the array as well as
    its boundaries. Subsequent calls will be sub-arrays.   
 */
+
+/* This is a convention. Array 5 isze, pass arr[0] and 5. Index
+   of 5 is one beyond, but could design the interface in the alternative
+   way if that is preferable. */
 template <class T>
-inline void QuickSort( T  *arr, 
-                       T  *arrBeg,
-                       size_t const  len )
+inline void QuickSort( T* arr,
+                       size_t const begElement,
+                       size_t const oneElementPast ) //this design might be bad for the VERY Max() of the size.
 {
-    assert(arr);
+    assert(arr && oneElementPast > begElement);
+    /* Pick a pivot. Should be random, but for now choose the middle.
+       rand() is a possibility, but seed is important. Clock dependency
+       can be less than 'random' in some cases. */
+    size_t const  lastElement = oneElementPast - 1;
+    size_t const  mid = begElement + (lastElement - begElement) / 2;
+    T const       pivot = arr[mid];
 
-    /* 1. Pick a pivot */
-    T   *midPivot = arr + (arr + len - arr) / 2;
-    T   mid = *midPivot;
-
-    /* Can do this a number of different ways, including moving the
-       pivot to one side or another for ease of partitioning operations.
-
-       Now instead of juggling two sides around the pivot, you're really
-       just moving the pivot and swapping around to achieve partitioning. */
-    std::swap(*arr, *midPivot);
-
-    /* 2. Partition so that all values less than pivot come before the pivot */
-    partition(arr, midPivot, arr,  arr + len);    
-
-    /* 3. Recursively apply above steps to sub-array of elements with smaller than pivot,
-          as well as same for greater. */
-
-    int dummy = 0;
-}
-
-//error handling for the input arguments here could be a lot. Consider.
-template <class T>
-inline void partition( T    *arr,
-                       T    *pivot,
-                       T    *left,
-                       T    *right )
-{
-
-    T        *itrSlow = left;      //can re-use, but this is more readable.
-    T const  pivotVal = *pivot;    //when we swap the pivot and move to the front, it can be irritating to track.
-   
-    for(T* itrFast = left; itrFast < right; ++itrFast) //is...this valid, comparint iterators?
+    /* Partition stuff around the pivot element. */
+    if(lastElement - begElement > 1)
     {
-        if(*itrFast < pivotVal)
+        size_t leftItr = begElement, rightItr = lastElement;
+        while(leftItr < rightItr)
         {
-            std::swap(*itrFast, *itrSlow);
-            ++itrSlow;
+            /* If an element on either side of the pivot is already in
+               the right place, skip it. Swap only incorrect elements. */
+            while(arr[leftItr] < pivot && leftItr < rightItr)
+                ++leftItr;
+
+            while(pivot < arr[rightItr] && leftItr < rightItr)
+                --rightItr;
+
+            if(leftItr < rightItr)
+            {
+                /* Move one past where the element was just swapped */
+                std::swap(arr[leftItr], arr[rightItr]);                
+                ++leftItr;
+            }
         }
+
+        /* Partitioned for left and right. Repeate for those two sub-arrays, until
+           we end up with size == 1. Watch recursion depth for super-big arrays? */
+        QuickSort(arr, begElement, leftItr);
+        QuickSort(arr, rightItr, lastElement);
     }
-
-    /* Move pivot to just after the last swap */
-    std::swap(*itrSlow, *(right - 1));
-
-    int dummy0 = 0;
+    
+    int dummy = 9;
 }
+
+
