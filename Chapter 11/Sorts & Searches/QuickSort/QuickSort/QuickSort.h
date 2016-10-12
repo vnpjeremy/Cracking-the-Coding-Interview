@@ -40,6 +40,7 @@ template <class T>
                            size_t const oneElementPast ) //this design might be bad for the VERY Max() of the size.
 {
     assert(arr);
+    assert(oneElementPast > begElement);
     /* Pick a pivot. Should be random, but for now choose the middle.
        rand() is a possibility, but seed is important. Clock dependency
        can be less than 'random' in some cases. */

@@ -49,5 +49,12 @@ int main()
 
    // QuickSort(arr, 0, len);
 
+    int arr2[1] = {4};
+    int *arr3 = nullptr;
+
+    QuickSort(arr2, 0, 1);
+
+    QuickSort(arr3, 0, 0);
+
     int dummy = 0;
 }
