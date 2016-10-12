@@ -35,21 +35,22 @@ size_t inline size1(T (&arr)[N])
    of 5 is one beyond, but could design the interface in the alternative
    way if that is preferable. */
 template <class T>
-inline void QuickSort( T* arr,
-                       size_t const begElement,
-                       size_t const oneElementPast ) //this design might be bad for the VERY Max() of the size.
+/*inline*/ void QuickSort( T*           arr,
+                           size_t const begElement,
+                           size_t const oneElementPast ) //this design might be bad for the VERY Max() of the size.
 {
-    assert(arr && oneElementPast > begElement);
+    assert(arr);
     /* Pick a pivot. Should be random, but for now choose the middle.
        rand() is a possibility, but seed is important. Clock dependency
        can be less than 'random' in some cases. */
-    size_t const  lastElement = oneElementPast - 1;
-    size_t const  mid = begElement + (lastElement - begElement) / 2;
-    T const       pivot = arr[mid];
 
     /* Partition stuff around the pivot element. */
-    if(lastElement - begElement > 1)
+    if(oneElementPast - begElement > 1)
     {
+        size_t const  lastElement = oneElementPast - 1;
+        size_t const  mid = begElement + (/*lastElement*/oneElementPast - begElement) / 2;
+        T const       pivot = arr[mid];
+
         size_t leftItr = begElement, rightItr = lastElement;
         while(leftItr < rightItr)
         {
@@ -64,7 +65,7 @@ inline void QuickSort( T* arr,
             if(leftItr < rightItr)
             {
                 /* Move one past where the element was just swapped */
-                std::swap(arr[leftItr], arr[rightItr]);                
+                std::swap(arr[leftItr], arr[rightItr]);
                 ++leftItr;
             }
         }
