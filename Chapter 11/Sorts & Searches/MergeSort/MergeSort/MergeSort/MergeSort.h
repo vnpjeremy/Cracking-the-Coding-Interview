@@ -20,18 +20,9 @@ template <class T>
 {
     /* O(n) space for helper array */
     size_t const len1 = mid - beg, len2 = end - mid;       //len = 2
-    T            *helper1 = nullptr,  *helper2 = nullptr;
-
-    if(len1)
-    {
-        helper1 = new T[len1];
-        std::copy(arr, arr + mid, helper1);
-    }
-    if(len2)
-    {
-        helper2 = new T[len2];
-        std::copy(arr + mid, arr + end, helper2);
-    }
+    T* helper1 = new T[len1], *helper2 = new T[len2];
+    std::copy(arr + beg, arr + mid, helper1);
+    std::copy(arr + mid, arr + end, helper2);
     
     /* Merge operation. beg->mid-1 on the first, mid->end on second. */
     size_t     arrIndex = beg, ii = 0, jj = 0; //arrIndex = 3, ii = 3, jj = 5
@@ -52,10 +43,8 @@ template <class T>
     while(jj < len2)
         arr[arrIndex++] = helper2[jj++];
 
-    if(len1)
-        delete[] helper1;
-    if(len2)
-        delete[] helper2;
+    delete[] helper1;
+    delete[] helper2;
 }
 
 template <class T>
@@ -71,7 +60,7 @@ inline void MergeSort( T*           arr,
         size_t const mid = beg + (end - beg) / 2;
         /* Recurse for LHS and RHS */
         MergeSort(arr, beg, mid);
-        MergeSort(arr, mid+1, end);
+        MergeSort(arr, mid + 1, end);
         Merge(arr, beg, mid, end);
     }
 }
