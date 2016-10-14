@@ -71,7 +71,7 @@ inline void MergeSort( T*           arr,
         size_t const mid = beg + (end - beg) / 2;
         /* Recurse for LHS and RHS */
         MergeSort(arr, beg, mid);
-        MergeSort(arr, mid, end);
+        MergeSort(arr, mid+1, end);
         Merge(arr, beg, mid, end);
     }
 }
