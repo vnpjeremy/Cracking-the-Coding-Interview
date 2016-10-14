@@ -11,7 +11,7 @@
 
 /* This is the integral component of Mergesort. Since we already
    have this buffer, we don't want to add O(n) space to it, like
-   ususal. We can do it in O(1) space and O(1) time.
+   ususal. We can do it in O(1) space and O(n) time.
    
    We will have to use the second half of the first array AS the
    buffer, which could mean one of a couple/few approaches. My
@@ -30,6 +30,9 @@
    of array 1, some M elements from the last one, where size1+ size2 + M = N, 
    length of array 1 storage capacity. Let us implement this more generic
    solution.
+
+   Note: if one array is larger than the other, this becomes more complex.
+   Excess elements need to be handled somehow. That solution will not be O(n).
    */
 int main()
 {
@@ -39,10 +42,10 @@ int main()
     std::uniform_int_distribution<> dist(-100, 100);
 
     size_t const len1_alloc = 12, len2 = 5, len1_pop = 5;
-    int buf1[len1_alloc] = {44, -44, 150, 99, -3, 0, 0, 0, 0, 0, 0, 0};
-    int buf2[len2] = {-1, 15, 25, -66, 100};
+    int buf1[len1_alloc] = {-44, -18, 15, 99, 103, 0, 0, 0, 0, 0, 0, 0};
+    int buf2[len2] = {-1, 3, 31, 221, 4005};
 
-    merge(buf1, buf2, len1_alloc, len2);
+    merge(buf1, buf2, len1_pop, len2);
 
     int dummy = 0;
 }
