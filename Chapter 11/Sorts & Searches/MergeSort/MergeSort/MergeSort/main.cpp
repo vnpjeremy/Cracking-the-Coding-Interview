@@ -3,9 +3,15 @@
 
 int main()
 {
+    int *new1 = new int[1];
+
+    delete[] new1;
+
     int arr0[5] = {3, -1, 5, 2, -20};
     size_t len = sizeOfArr(arr0);
     MergeSort(arr0, 0, len);
+
+   
 
 
     std::random_device              rDev;

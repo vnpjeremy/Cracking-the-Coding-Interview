@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <cassert>
-#include <iterator>
+
 
 template <class T, size_t N>
 size_t inline sizeOfArr(T (&input)[N])
@@ -13,20 +13,49 @@ size_t inline sizeOfArr(T (&input)[N])
    Repeatedly merge sublists to produce new sorted sublists 
    until everything is done. */
 template <class T>
-inline void Merge( T*           arr, 
-                   size_t const beg,
-                   size_t const mid,
-                   size_t const end )
+/*inline*/ void Merge( T*           arr, 
+                   size_t const beg, // beg = 3
+                   size_t const mid, // mid = 4
+                   size_t const end )// end = 5
 {
     /* O(n) space for helper array */
-    T* helper = new T[end - beg];
-    std::copy(arr, arr + end, helper);
-    //std::copy(std::begin(arr), std::end(arr), std::begin(helper));
+    size_t const len1 = mid - beg, len2 = end - mid;       //len = 2
+    T            *helper1 = nullptr,  *helper2 = nullptr;
 
-    //eh could probably do memset or std::copy
+    if(len1)
+    {
+        helper1 = new T[len1];
+        std::copy(arr, arr + mid, helper1);
+    }
+    if(len2)
+    {
+        helper2 = new T[len2];
+        std::copy(arr + mid, arr + end, helper2);
+    }
+    
+    /* Merge operation. beg->mid-1 on the first, mid->end on second. */
+    size_t     arrIndex = beg, ii = 0, jj = 0; //arrIndex = 3, ii = 3, jj = 5
+    while(ii < len1  && jj < len2)
+    {
+        /* drop in  LHS or RHS depending on comparison */
+        if(helper1[ii] < helper2[jj])
+            arr[arrIndex++] = helper1[ii++];
+        else
+            arr[arrIndex++] = helper2[jj++];
+    }
 
+    /* Dump remaining elements if sub-arrays are unequal */
+    while(ii < len1)
+        arr[arrIndex++] = helper1[ii++];
 
-    delete[] helper;
+    /* This is really an 'else' operation, but the conditionals handle it well enough. */
+    while(jj < len2)
+        arr[arrIndex++] = helper2[jj++];
+
+    if(len1)
+        delete[] helper1;
+    if(len2)
+        delete[] helper2;
 }
 
 template <class T>
@@ -34,12 +63,15 @@ inline void MergeSort( T*           arr,
                        size_t const beg, 
                        size_t const end )
 {
-    assert(arr && end > beg);
+    assert(arr);
 
-    /* Find midpoint */
-    size_t const mid = beg + (end - beg) / 2;
-    /* Recurse for LHS and RHS */
-    MergeSort(arr, beg, mid);
-    MergeSort(arr, mid + 1, end);
-    Merge(arr, beg, mid, end);
+    if(end > beg)
+    {
+        /* Find midpoint */
+        size_t const mid = beg + (end - beg) / 2;
+        /* Recurse for LHS and RHS */
+        MergeSort(arr, beg, mid);
+        MergeSort(arr, mid, end);
+        Merge(arr, beg, mid, end);
+    }
 }
