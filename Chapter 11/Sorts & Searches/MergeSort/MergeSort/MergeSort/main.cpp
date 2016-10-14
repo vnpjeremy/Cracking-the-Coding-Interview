@@ -3,20 +3,23 @@
 
 int main()
 {
-    int *new1 = new int[1];
-
-    delete[] new1;
-
-    int arr0[5] = {3, -1, 5, 2, -20};
-    size_t len = sizeOfArr(arr0);
-    MergeSort(arr0, 0, len);
-
-   
-
-
+    int                             arr[25];
     std::random_device              rDev;
     std::mt19937                    gen(rDev());
     std::uniform_int_distribution<> dist(-100, 100);
 
+    for(int ii = 0; ii < 25; ++ii)
+        arr[ii] = dist(gen);
+
+    MergeSort(arr, 0, 25);
+    int tmp = std::numeric_limits<int>::min();
+    for(int ii = 0; ii < 25; ++ii)
+    {
+        assert(tmp <= arr[ii]);
+        tmp = arr[ii];
+    }
+
+
+    
     int dummy = 0;
 }
