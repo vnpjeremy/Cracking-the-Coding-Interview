@@ -17,6 +17,9 @@ void merge( T             *arr1,
         else
             arr1[last_index--] = arr1[itrArr1--];
     }
-    
-    //then take care of non-identical lengths
+
+    /* Remaining elements are already in-place because these are already sorted.
+       Steps remain in the mergesort algorithm because recursive steps are not
+       sorted until the very end. 
+    */
 }

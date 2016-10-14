@@ -7,6 +7,7 @@
    Solutions by: vnpjeremy*/
 
 #include "merge.h"
+#include <cassert>
 #include <random>
 
 /* This is the integral component of Mergesort. Since we already
@@ -41,11 +42,18 @@ int main()
     std::mt19937                    gen(rDev());
     std::uniform_int_distribution<> dist(-100, 100);
 
-    size_t const len1_alloc = 12, len2 = 5, len1_pop = 5;
+    size_t const len1_alloc = 12, len2 = 3, len1_pop = 5;
     int buf1[len1_alloc] = {-44, -18, 15, 99, 103, 0, 0, 0, 0, 0, 0, 0};
-    int buf2[len2] = {-1, 3, 31, 221, 4005};
+    int buf2[len2] = {-1, 31, 32/*, 4005*/ /*, 12000*/};
 
     merge(buf1, buf2, len1_pop, len2);
+
+    int tmp = std::numeric_limits<int>::min();
+    for(int ii = 0; ii < len1_pop + len2; ++ii)
+    {
+        assert(buf1[ii] >= tmp);
+        tmp = buf1[ii];
+    }
 
     int dummy = 0;
 }
