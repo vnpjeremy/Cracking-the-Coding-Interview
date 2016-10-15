@@ -5,13 +5,29 @@
    
    Solutions by: vnpjeremy*/
 
-/* First up we have to generate this nonsense. */
+/* First up we have to generate this nonsense. 
+   Also: Aha! It never actually says to sort the damn things.
+*/
+#include <algorithm>
 #include <string>
 #include <vector>
 
+
+
+struct AnagramCompare
+{
+    bool operator()(std::string const& lhs, std::string const& rhs)
+    {
+        std::string lhs1(lhs), rhs1(rhs);
+        std::sort(lhs1.begin(), lhs1.end());
+        std::sort(rhs1.begin(), rhs1.end());
+        return lhs1 < rhs1;
+    }
+};
+
 void stringSort(std::vector<std::string> & unsortedArr)
 {
-
+    std::sort(unsortedArr.begin(), unsortedArr.end(), AnagramCompare());
 }
 
 int main()
