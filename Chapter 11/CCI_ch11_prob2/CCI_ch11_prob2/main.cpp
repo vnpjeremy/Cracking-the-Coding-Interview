@@ -61,8 +61,12 @@ void stringSort(std::vector<std::string> & unsortedArr)
    by means of identical char counts. So, sort it. I've done this in AnagramCompare.
    
    Technically, the instructions don't call for a sort. This might be more work
-   than is necessary. The next item would be char counting on each. If we can get
-   better than N log N time complexity, it will be a win.
+   than is necessary. 
+
+   Solution 1: Sort the strings, then sort the arrays. N log N for both operations.
+   Solution 2: Use a hash table to skirt the second sort. Store the sorted and the 
+   unsorted string, then populate the array with anagrams next to one another. This
+   ought to be faster as insert, erase, and find are average constant in umaps.
 */
 int main()
 {
