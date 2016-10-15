@@ -10,9 +10,36 @@
 */
 #include <algorithm>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 
+void sortWithHashing(std::vector<std::string> & unsortedArr)
+{
+    std::vector<std::string>                     tmp;
+    tmp.reserve(unsortedArr.size());
+    std::unordered_map<std::string, std::string> stringMap;
+
+    for(size_t ii = 0; ii < unsortedArr.size(); ++ii)
+    {
+        std::string  sorted(unsortedArr[ii]);
+        std::sort(sorted.begin(), sorted.end());
+        auto itr = stringMap.find(sorted);
+        if(itr != stringMap.end())
+        {
+            tmp.push_back(unsortedArr[ii]);
+            tmp.push_back((*itr).second);
+            itr = stringMap.erase(itr);
+        }
+        else
+            stringMap.insert(std::make_pair(sorted, unsortedArr[ii]));
+    }
+
+    for(auto elm : stringMap)
+        tmp.push_back(elm.second);
+    unsortedArr = tmp;
+}
 
 struct AnagramCompare
 {
@@ -30,6 +57,13 @@ void stringSort(std::vector<std::string> & unsortedArr)
     std::sort(unsortedArr.begin(), unsortedArr.end(), AnagramCompare());
 }
 
+/* There are a couple ways to attack this. First of all, an anagram is defined
+   by means of identical char counts. So, sort it. I've done this in AnagramCompare.
+   
+   Technically, the instructions don't call for a sort. This might be more work
+   than is necessary. The next item would be char counting on each. If we can get
+   better than N log N time complexity, it will be a win.
+*/
 int main()
 {
     std::vector<std::string> stringArr;
@@ -41,7 +75,8 @@ int main()
     stringArr.push_back("brag");
     stringArr.push_back("tab");
 
-    stringSort(stringArr);
+    //stringSort(stringArr);
+    sortWithHashing(stringArr);
 
     int dummy = 0;
 }
