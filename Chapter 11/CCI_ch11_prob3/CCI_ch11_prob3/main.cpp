@@ -63,10 +63,9 @@ inline size_t findPivot( T const*const  arrayInput,
 
     if(mid < arrayInput[RH])
         return findPivot(arrayInput, LH, midIndex - 1); //Argh, fix this to alter the bounds with the new Mid!
-    if(mid > arrayInput[LH])
-        return findPivot(arrayInput, midIndex + 1, RH);
-
-    return 0; //shouldn't happen...
+    // if(mid > arrayInput[LH])
+    return findPivot(arrayInput, midIndex + 1, RH);
+    //return 0; //shouldn't happen...
 }
 
 
