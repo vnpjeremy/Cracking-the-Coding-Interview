@@ -23,6 +23,26 @@
    So we can kind of do this. Ish. For the pivot discovery:
    */
 
+template <class T>
+inline size_t myBinarySearch( T const*const  arrayInput,
+                              size_t const   LH,
+                              size_t const   RH,
+                              T const        searchValue )
+{
+    /* Assume ascending order */
+    //assert(LH < RH); logical, but this condition is met when the searched for value is the [0] element in the array. Can't include.
+    size_t const  midIndex = LH + (RH - LH) / 2;
+    T const       mid = arrayInput[midIndex];
+
+    if(mid == searchValue)//oops, missed a case.
+        return midIndex;
+
+    if(mid < searchValue)
+        return myBinarySearch(arrayInput, midIndex + 1, RH, searchValue);
+    if(searchValue < mid)
+        return myBinarySearch(arrayInput, LH, midIndex - 1, searchValue);
+    return midIndex;
+}
 
 template <class T>
 inline size_t findPivot( T const*const  arrayInput,
@@ -42,9 +62,9 @@ inline size_t findPivot( T const*const  arrayInput,
         return midIndex;
 
     if(mid < arrayInput[RH])
-        return findPivot(arrayInput, LH, RH - 1);
+        return findPivot(arrayInput, LH, midIndex - 1); //Argh, fix this to alter the bounds with the new Mid!
     if(mid > arrayInput[LH])
-        return findPivot(arrayInput, LH + 1, RH);
+        return findPivot(arrayInput, midIndex + 1, RH);
 
     return 0; //shouldn't happen...
 }
@@ -100,6 +120,16 @@ int main()
     assert(find11 == 6);
     size_t find12 = findElement(arr2, 7, 22);
     assert(find12 == 3);
+
+    int arr3[7] = {15, 22, 31, 46, 59, 88, 103};
+    size_t find21 = myBinarySearch(arr3, 0, 7, 22);
+    assert(find21 == 1);
+    size_t find22 = myBinarySearch(arr3, 0, 7, 15);
+    assert(find22 == 0);
+    size_t find23 = myBinarySearch(arr3, 0, 7, 103);
+    assert(find23 == 6);
+    size_t find24 = myBinarySearch(arr3, 0, 7, 88);
+    assert(find24 == 5);
 
     //assuming increasing order, if element 2 < element 1, you're 'around' the pivot.
 
