@@ -5,7 +5,7 @@
    rotated some N number of times.
    
    Solutions by: vnpjeremy*/
-
+#include <algorithm>
 #include <cassert>
 /* There has GOT to be a better way of finding the rotation point
    than O(n). Maybe do a modified binary search for that too, so
@@ -23,7 +23,7 @@
    So we can kind of do this. Ish. For the pivot discovery:
    */
 template <class T>
-inline size_t findPivot(T* arrayInput, size_t const LH, size_t const RH)
+inline size_t findPivot(T const* arrayInput, size_t const LH, size_t const RH)
 {
     /* If 0 is passed, and this is true, we know there isn't a pivot. Assume ordered. */
     //assert(LH != RH); //also assume no repeated elements? Is that fair?
@@ -47,12 +47,33 @@ inline size_t findPivot(T* arrayInput, size_t const LH, size_t const RH)
 
 
 template <class T>
-inline size_t findElement(T* arrayInput, size_t const len, T const& elem)
+inline size_t findElement(T const* arrayInput, size_t const len, T const& elem)
 {
     size_t const pivot = findPivot(arrayInput, 0, len - 1);
+
+    auto itrLHS = std::lower_bound(arrayInput, arrayInput + pivot, elem);
+    if(itrLHS != arrayInput + len)
+    {
+        /* Note: if InputIterator meets the requirements of RandomAccessIterator, which it does
+           in this case, std::distance is constant, not linear. */
+
+        auto itrRHS = std::lower_bound(arrayInput + pivot, arrayInput + len, elem);
+
+    }
+
     int dummy1 = 0;
     return 0;
 }
+
+/* Fun Note:
+   std::partition(begin, end, unary_predicate) can be used to split up a vector
+   (not sure about c-arrays), but surely std::arrays. This could be used to 'fix'
+   the array here, also probably useful in the sorting implementations - e.g., quicksort
+   with a lambda function for the < operator.
+
+
+   
+   */
 
 int main()
 {
