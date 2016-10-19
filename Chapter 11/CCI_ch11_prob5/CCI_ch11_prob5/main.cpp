@@ -41,13 +41,13 @@ int main()
     size_t const find5 = myBinarySearch(arr1.data(), 0, arr1.size(), comp5);
     assert(find5 == 7);
 
-    std::array<std::string, 9> arr2 = {"floof", "", "charles", "", "", "finland", "", "krunk", "brr"};
+    std::array<std::string, 9> arr2 = {"aloof", "", "charles", "", "", "finland", "", "krunk", "mrr"};
 
-    std::string comp6 = "floof";
+    std::string comp6 = "aloof";
     size_t const find6 = myBinarySearch(arr2.data(), 0, arr2.size(), comp6);
     assert(find6 == 0);
 
-    std::string comp7 = "brr";
+    std::string comp7 = "mrr";
     size_t const find7 = myBinarySearch(arr2.data(), 0, arr2.size(), comp7);
     assert(find7 == 8);
 
