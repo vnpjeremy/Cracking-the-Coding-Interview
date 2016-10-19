@@ -5,6 +5,7 @@
    in the set, write a method to find a string.
    
    Solutions by: vnpjeremy*/
+#include "MyBinarySearch.h"
 #include <array>
 
 /* Key: sorted. So, we're thinking OK so binary search must have
@@ -19,6 +20,7 @@ int main()
     std::array<std::string, 9> arr1= {"", "bangelore", "charles", "", "", "finland", "", "krunk", ""};
 
     auto itr = std::lower_bound(arr1.begin(), arr1.end(), "bangelore");
+    size_t find = myBinarySearch(arr1.data(), 0, arr1.size(), std::string("bangelore"));
 
     int dummy = 0;
 }
