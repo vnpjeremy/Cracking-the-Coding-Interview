@@ -7,6 +7,9 @@ inline size_t myBinarySearch( T const*const  arrayInput,
                               T const        searchValue )
 {
     /* Assume ascending order */
+    if(LH > RH)
+        return RH;
+
     //assert(LH < RH); logical, but this condition is met when the searched for value is the [0] element in the array. Can't include.
     size_t const  midIndex = LH + (RH - LH) / 2;
     T const       mid = arrayInput[midIndex];
