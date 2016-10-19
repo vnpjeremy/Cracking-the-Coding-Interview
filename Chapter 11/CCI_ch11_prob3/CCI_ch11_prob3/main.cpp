@@ -30,11 +30,14 @@ inline size_t myBinarySearch( T const*const  arrayInput,
                               T const        searchValue )
 {
     /* Assume ascending order */
-    //assert(LH < RH); logical, but this condition is met when the searched for value is the [0] element in the array. Can't include.
+    /* Handle 'not found' case and index is essentially container.end() */
+    if(LH > RH)
+        return RH;
+
     size_t const  midIndex = LH + (RH - LH) / 2;
     T const       mid = arrayInput[midIndex];
 
-    if(mid == searchValue)//oops, missed a case.
+    if(mid == searchValue)
         return midIndex;
 
     if(mid < searchValue)
@@ -58,11 +61,15 @@ inline size_t findPivot( T const*const  arrayInput,
     size_t const midIndex = LH + (RH - LH) / 2;
     T const      mid = arrayInput[midIndex];
 
-    if(mid < arrayInput[LH] && mid < arrayInput[RH])
-        return midIndex;
+    if(midIndex + 1 <= RH && LH < midIndex - 1)
+    {
+        /* If mid is less than both surrounding numbers */
+        if(mid < arrayInput[midIndex + 1] && mid < arrayInput[midIndex - 1])
+            return midIndex;
+    }
 
     if(mid < arrayInput[RH])
-        return findPivot(arrayInput, LH, midIndex - 1); //Argh, fix this to alter the bounds with the new Mid!
+        return findPivot(arrayInput, LH, midIndex - 1);
     // if(mid > arrayInput[LH])
     return findPivot(arrayInput, midIndex + 1, RH);
     //return 0; //shouldn't happen...
@@ -89,7 +96,7 @@ inline size_t findElement( T const*const  arrayInput,
     if(itrRHS != arrayInput + len)
         return std::distance(arrayInput, itrRHS);
     else
-        return 0; //error; not found
+        return len; //error; not found
 }
 
 /* Fun Note:
@@ -101,7 +108,10 @@ inline size_t findElement( T const*const  arrayInput,
 
 int main()
 {
-    //                     V
+    int arr0[6] = {4, 5, 7, 8, 9, 10};
+    size_t find0 = findElement(arr0, 6, 5);
+    assert(find0 == 1);
+
     int    arr[6] = {7, 8, 9, 10, 4, 5};
     size_t find = findElement(arr, 6,  4);
     assert(find == 4);
@@ -111,6 +121,8 @@ int main()
     assert(find2 == 5);
     size_t find3 = findElement(arr, 6, 10);
     assert(find3 == 3);
+    size_t find4 = findElement(arr, 6, 100);
+    assert(find4 == 6);
 
     int arr2[7] = {199, 2, 16, 22, 41, 55, 60};
     size_t find10 = findElement(arr2, 7, 199);
@@ -129,8 +141,8 @@ int main()
     assert(find23 == 6);
     size_t find24 = myBinarySearch(arr3, 0, 7, 88);
     assert(find24 == 5);
-
-    //assuming increasing order, if element 2 < element 1, you're 'around' the pivot.
+    size_t find25 = myBinarySearch(arr3, 0, 7, 951);
+    assert(find25 == 7);
 
     int dummy2 = 0;
 }
