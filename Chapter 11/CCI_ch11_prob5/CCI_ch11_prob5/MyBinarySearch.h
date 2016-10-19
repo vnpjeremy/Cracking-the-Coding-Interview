@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <cassert>
 #include <string>
 //this is no longer valid for template generiticiy. Strings only.
 size_t findMid( std::string const*const  arrayInput,
@@ -36,15 +37,25 @@ size_t myBinarySearch( std::string const*const  arrayInput,
                        std::string const        searchValue )
 {
     /* Assume ascending order */
+    if(LH > RH)
+        return RH;
+
     //assert(LH < RH); logical, but this condition is met when the searched for value is the [0] element in the array. Can't include.
+    assert(!searchValue.empty());
     size_t      midIndex = LH + (RH - LH) / 2;
     midIndex = findMid(arrayInput, LH, RH, midIndex);
 
     std::string const       mid = arrayInput[midIndex];
-
-    if(mid == searchValue)//oops, missed a case.
+    if(mid == searchValue)
         return midIndex;
 
+    /* We've begun an infinite loop. Calling with the same argument. String not found. */
+    if(midIndex + 1 == LH || midIndex - 1 == RH)
+        return RH;
+
+    /* The mid calculation tips off binary search that the string isn't found. But we have to 'scoot' to
+       find a non-null mid string, which is computed identically every time and causing an infinite loop. 
+       Must handle uniquely because of this change in the algorithm. */
     if(mid < searchValue)
         return myBinarySearch(arrayInput, midIndex + 1, RH, searchValue);
     if(searchValue < mid)
