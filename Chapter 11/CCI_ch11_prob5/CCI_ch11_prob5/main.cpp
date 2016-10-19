@@ -6,7 +6,7 @@
    
    Solutions by: vnpjeremy*/
 #include "MyBinarySearch.h"
-#include <array>
+#include <cassert>
 
 /* Key: sorted. So, we're thinking OK so binary search must have
    a limitation with empty strings. Modify it so that it doesn't,
@@ -20,7 +20,10 @@ int main()
     std::array<std::string, 9> arr1= {"", "bangelore", "charles", "", "", "finland", "", "krunk", ""};
 
     auto itr = std::lower_bound(arr1.begin(), arr1.end(), "bangelore");
-    size_t find = myBinarySearch(arr1.data(), 0, arr1.size(), std::string("bangelore"));
+
+    std::string comp1 = "bangelore";
+    size_t find = myBinarySearch(arr1.data(), 0, arr1.size(), comp1);
+    assert(arr1[find] == comp1);
 
     int dummy = 0;
 }
