@@ -6,7 +6,8 @@
    
    Solutions by: vnpjeremy*/
 
-
+#include <array>
+#include <utility>
 /* This is a very intriguing problem. 
    Consider:
    We have a matrix of rows that are sorted. We can perform a binary
@@ -17,7 +18,22 @@
    
 
    */
-int main()
+
+typedef std::pair<size_t, size_t> indices;
+//typedef size_t indices[2];
+
+indices searchMtx()
 {
 
+}
+
+int main()
+{
+    std::array<std::array<int, 4>, 4> matx = { {{13, 80,  190, 250},
+                                                {50, 99,  200, 260},
+                                                {61, 121, 210, 277},
+                                                {77, 135, 301, 325}} };
+
+    /* Straight off, it looks like we can use the diagonals to exclude entire
+       sub-matrices. */
 }
