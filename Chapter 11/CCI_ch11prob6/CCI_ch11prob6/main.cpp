@@ -24,9 +24,28 @@ typedef std::pair<size_t, size_t> indices;
 
 /* I could templatize this with the array form T**, but this? */
 template <class T, size_t N>
-indices searchMtx( std::array<std::array<T, N>, N> mtx,
-                   T const&                        searchVal)
+bool searchMtx( std::array<std::array<T, N>, N> mtx,
+                T const&                        searchVal,
+                indices &                       location )
 {
+    if(searchVal < mtx[0][0] || searchVal > mtx[N - 1][N - 1])
+        return false;
+
+    size_t row = 0, col = N - 1;
+    while(row < N && col < N)
+    {
+        if(searchVal < mtx[row][col])
+            --col;
+        else if(mtx[row][col] < searchVal)
+            ++row;
+        else
+        {
+            location = std::make_pair(row, col);
+            return true;
+        }
+    }
+    return false;
+
     /* In theory we should be able to write this for arbitrary types
        as well as arbitrary lengths. In theory. 
        
@@ -53,6 +72,7 @@ indices searchMtx( std::array<std::array<T, N>, N> mtx,
     /* Down-Left Search O(n), fastest? Other than a clever D&Q?*/
 
     /* Move from RHS col */
+#if 0
     for(size_t ii = N - 1; ii < N; --ii)
     {
         if(searchVal < mtx[0][ii])
@@ -66,8 +86,10 @@ indices searchMtx( std::array<std::array<T, N>, N> mtx,
                 return std::make_pair(jj, ii);
         }
     }
-
     return std::make_pair(N, N);
+#endif
+
+    
 }
 
 int main()
@@ -77,17 +99,31 @@ int main()
                                                 {61, 121, 210, 277},
                                                 {77, 135, 301, 325}} };
 
-    indices const result1 = searchMtx(matx, 13);
+    indices result1;
+    bool ret1 = searchMtx(matx, 13, result1);
     assert(result1.first == 0 && result1.second == 0);
 
-    indices const result2 = searchMtx(matx, 325);
+    indices result2;
+    bool ret2 = searchMtx(matx, 325, result2);
     assert(result2.first == 3 && result2.second == 3);
 
-    indices const result3 = searchMtx(matx, 200);
+    indices result3;
+    bool ret3 = searchMtx(matx, 200, result3);
     assert(result3.first == 1 && result3.second == 2);
 
-    indices const result4 = searchMtx(matx, 61);
+    indices result4;
+    bool ret4 = searchMtx(matx, 61, result4);
     assert(result4.first == 2 && result4.second == 0);
+
+    std::array<std::array<int, 5>, 5> matx2 = { {{1,  4,  7,  11, 15},
+                                                {2,  5,  8,  12, 19},
+                                                {3,  6,  9,  16, 22},
+                                                {10, 13, 14, 17, 24},
+                                                {18, 21, 23, 26, 30}} };
+
+    indices result5;
+    bool ret5 = searchMtx(matx2, 13, result5);
+    assert(result5.first == 3 && result5.second == 1);
 
     int dummy = 0;
     /* Straight off, it looks like we can use the diagonals to exclude entire
