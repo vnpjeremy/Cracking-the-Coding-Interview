@@ -51,6 +51,7 @@ inline T largestSum( T /*const*/*       input,
     {
         if(input[ii] + maxCurrent < input[ii])
         {
+            /* When the input is the largest, start the sub-array at size == 1 */
             maxCurrent = input[ii];
             *begSubArray = input + ii;
             *endSubArray = input + ii;
@@ -58,10 +59,15 @@ inline T largestSum( T /*const*/*       input,
         else
         {
             maxCurrent = input[ii] + maxCurrent;
-            *endSubArray = input + ii;
         }
 
-        maxGlobal  = std::max(maxCurrent, maxGlobal);
+        if(maxGlobal < maxCurrent)
+        {
+            /* Update the end of the sub-array when the global is overwritten. When
+               it isn't, we aren't extending the length of the sub-array. */
+            maxGlobal = maxCurrent;
+            *endSubArray = input + ii + 1;
+        }
     }
 
     return maxGlobal;
