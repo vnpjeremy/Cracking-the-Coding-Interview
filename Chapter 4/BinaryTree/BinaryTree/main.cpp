@@ -5,7 +5,7 @@ int main()
 {
     bTree<int> t1;
 
-    std::vector<int> input = {11, 6, 14, 18, 5, 8, 10};
+    std::vector<int> input = {10, 14, 6, 11, 8, 18, 5};
         /*  10
           /   \
          6    14 

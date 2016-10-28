@@ -41,20 +41,31 @@ public:
         if(!m_root)
             m_root = new bTreeNode<T>(value);
         else
-        {
-            //    //T             parentVal = m_root->m_val;
-            //    
+        {  
             bTreeNode<T>  *cur = m_root;
             while(cur)
             {
                 if(value < cur->m_val)
-                    cur = cur->m_lhs;
+                {
+                    if(!cur->m_lhs)
+                    {
+                        cur->m_lhs = new bTreeNode<T>(value);
+                        break;
+                    }
+                    else
+                        cur = cur->m_lhs;
+                }
                 else
-                    cur = cur->m_rhs;
+                {
+                    if(!cur->m_rhs)
+                    {
+                        cur->m_rhs = new bTreeNode<T>(value);
+                        break;
+                    }
+                    else
+                        cur = cur->m_rhs;
+                }
             }
-            cur = new bTreeNode<T>(value);
-            /* leaf node */
-            //if(value < parentVal)
         }
     }
 
