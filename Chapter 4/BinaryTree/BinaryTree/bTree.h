@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 template <class T>
 class bTree
@@ -78,6 +79,39 @@ public:
             delete node;
         }        
     }
+
+    /* -----------------------------Traversal of Binary Trees----------------------------------- */
+
+    /* Depth first traversal */
+
+    /* Pre-order traversal involves moving in Left-To-Right manner:
+      <root> <left subtree> <right subtree> */
+    void depthFirst_PreOrderTraverseSearch()
+    {
+        
+    }
+
+    /* In-order traversal doesn't do the root first, still Left-To-Right:
+       <lseft subtree> <root> <right subtree> */
+    void depthFirst_InOrderTraverseSearch()
+    {
+        
+    }
+
+    /* Post-order traversal waits till the end to do the root. Still Left-to-Right:
+       <left subtree> <right subtree> <root> */
+    void depthFirst_PostOrderTraverseSearch()
+    {
+        
+    }
+
+    /* Breadth first traversal */
+    void breadthFirst_LevelOrderSearch()
+    {
+        
+    }
+
+    /* -----------------------------Traversal of Binary Trees----------------------------------- */
 
     ~bTree()
     {
