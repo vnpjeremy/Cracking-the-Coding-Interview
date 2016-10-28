@@ -3,16 +3,18 @@
 
 int main()
 {
-    bTree<int> t1;
+    {
+        bTree<int> t1;
 
-    std::vector<int> input = {10, 14, 6, 11, 8, 18, 5};
+        std::vector<int> input = {10, 14, 6, 11, 8, 18, 5};
         /*  10
           /   \
-         6    14 
-        / \   / \ 
+         6    14
+        / \   / \
        5   8 11  18 */
-    for(auto elm : input)
-        t1.insert(elm);
+        for(auto elm : input)
+            t1.insert(elm);
+    }
 
     int dummy = 0;
 }

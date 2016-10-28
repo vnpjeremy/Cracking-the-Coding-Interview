@@ -69,8 +69,18 @@ public:
         }
     }
 
+    void destroyTree(bTreeNode<T>  *node)
+    {
+        if(node)
+        {
+            destroyTree(node->m_lhs);
+            destroyTree(node->m_rhs);
+            delete node;
+        }        
+    }
+
     ~bTree()
     {
-        bTreeNode<T>* cur = m_root;
+        destroyTree(m_root);
     }
 };
