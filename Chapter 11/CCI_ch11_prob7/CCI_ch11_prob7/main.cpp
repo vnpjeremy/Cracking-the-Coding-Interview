@@ -83,7 +83,7 @@ int main()
                                         std::make_pair(70, 150), 
                                         std::make_pair(56, 90),
                                         std::make_pair(75, 190), 
-                                        std::make_pair(60, 95),
+                                        std::make_pair(60, /*95*/105),
                                         std::make_pair(68, 110) };
 
     std::sort(personGroup.begin(), personGroup.end(), CompareHeight());
