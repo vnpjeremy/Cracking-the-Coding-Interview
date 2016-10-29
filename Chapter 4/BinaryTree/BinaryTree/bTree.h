@@ -34,6 +34,35 @@ private:
         bTreeNode<T>   *m_rhs;
     };
 
+    void preOrder(bTreeNode<T> const*const node) const
+    {
+        if(!node)
+            return;
+        std::cout << node->m_val << "\n";
+        preOrder(node->m_lhs);
+        preOrder(node->m_rhs);
+    }
+
+    void inOrder(bTreeNode<T> const*const node) const
+    {
+        if(!node)
+            return;
+
+        inOrder(node->m_lhs);
+        std::cout << node->m_val << "\n";
+        inOrder(node->m_rhs);
+    }
+
+    void postOrder(bTreeNode<T> const*const node) const
+    {
+        if(!node)
+            return;
+
+        postOrder(node->m_lhs);
+        postOrder(node->m_rhs);
+        std::cout << node->m_val << "\n";
+    }
+
     bTreeNode<T>   *m_root;
 
 public:
@@ -83,26 +112,31 @@ public:
     /* -----------------------------Traversal of Binary Trees----------------------------------- */
 
     /* Depth first traversal */
+    /* Linear O(n) time complexity */
+    /* Space complexity average, O(log n), from the stack depth for recursion. */
 
     /* Pre-order traversal involves moving in Left-To-Right manner:
       <root> <left subtree> <right subtree> */
-    void depthFirst_PreOrderTraverseSearch()
+    void depthFirst_PreOrderTraverseSearch() const
     {
-        
+        preOrder(m_root);
     }
 
     /* In-order traversal doesn't do the root first, still Left-To-Right:
-       <lseft subtree> <root> <right subtree> */
-    void depthFirst_InOrderTraverseSearch()
+       <lseft subtree> <root> <right subtree>
+       
+       Fun fact: In-Order traversal of a Binary Search Tree (BST) will
+       yield results in SORTED order! */
+    void depthFirst_InOrderTraverseSearch() const
     {
-        
+        inOrder(m_root);
     }
 
     /* Post-order traversal waits till the end to do the root. Still Left-to-Right:
        <left subtree> <right subtree> <root> */
-    void depthFirst_PostOrderTraverseSearch()
+    void depthFirst_PostOrderTraverseSearch() const
     {
-        
+        postOrder(m_root);
     }
 
     /* Breadth first traversal */

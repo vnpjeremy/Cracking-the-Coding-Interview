@@ -14,6 +14,10 @@ int main()
        5   8 11  18 */
         for(auto elm : input)
             t1.insert(elm);
+
+        //t1.depthFirst_PreOrderTraverseSearch();
+        //t1.depthFirst_InOrderTraverseSearch();
+        t1.depthFirst_PostOrderTraverseSearch();
     }
 
     int dummy = 0;
