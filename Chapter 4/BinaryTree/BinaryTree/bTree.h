@@ -63,9 +63,36 @@ private:
         std::cout << node->m_val << "\n";
     }
 
+    /* Recursive insert. Don't expose the node struct to the API */
+    bTreeNode<T>* insert( bTreeNode<T>    *node,
+                          T const&        value )
+    {
+        if(node)
+        {
+            if(value < node->m_val)
+                node->m_lhs = insert(node->m_lhs, value);
+            else
+                node->m_rhs = insert(node->m_rhs, value);
+        }
+        else
+        {
+            node = new bTreeNode<T>(value);
+        }
+        return node;
+    }
+
     bTreeNode<T>   *m_root;
 
 public:
+    /* Recursive insert wrapper */
+    void insert( T const&  value )
+    {
+        m_root = insert(m_root, value);
+    }
+
+
+#if 0
+    /* Non-recursive implementation of insert */
     void insert(T const&              value)
     {       
         if(!m_root)
@@ -98,6 +125,7 @@ public:
             }
         }
     }
+#endif
 
     void destroyTree(bTreeNode<T>  *node)
     {

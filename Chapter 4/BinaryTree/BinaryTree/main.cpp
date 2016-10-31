@@ -16,8 +16,8 @@ int main()
             t1.insert(elm);
 
         //t1.depthFirst_PreOrderTraverseSearch();
-        //t1.depthFirst_InOrderTraverseSearch();
-        t1.depthFirst_PostOrderTraverseSearch();
+        t1.depthFirst_InOrderTraverseSearch();
+        //t1.depthFirst_PostOrderTraverseSearch();
     }
 
     int dummy = 0;
