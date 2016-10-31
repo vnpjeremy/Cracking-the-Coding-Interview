@@ -1,4 +1,5 @@
 #include "bTree.h"
+#include <cassert>
 #include <vector>
 
 int main()
@@ -18,6 +19,13 @@ int main()
         //t1.depthFirst_PreOrderTraverseSearch();
         t1.depthFirst_InOrderTraverseSearch();
         //t1.depthFirst_PostOrderTraverseSearch();
+
+        bool const search1 = t1.search(6);
+        assert(search1 == true);
+        bool const search2 = t1.search(19);
+        assert(search2 == false);
+
+        int dummy1 = 1;
     }
 
     int dummy = 0;

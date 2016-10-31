@@ -81,6 +81,19 @@ private:
         return node;
     }
 
+    bool search( bTreeNode<T> const*const node,
+                 T const&                 value ) const
+    {
+        if(!node)
+            return false;
+        else if(value == node->m_val)
+            return true;
+        else if(value < node->m_val)
+            return search(node->m_lhs, value);
+        else
+            return search(node->m_rhs, value);
+    }
+
     bTreeNode<T>   *m_root;
 
 public:
@@ -90,7 +103,11 @@ public:
         m_root = insert(m_root, value);
     }
 
-
+    /* We search the thing anyway on insert. */
+    bool search(T const&  value) const
+    {
+        return search(m_root, value);
+    }
 #if 0
     /* Non-recursive implementation of insert */
     void insert(T const&              value)
@@ -134,7 +151,7 @@ public:
             destroyTree(node->m_lhs);
             destroyTree(node->m_rhs);
             delete node;
-        }        
+        }
     }
 
     /* -----------------------------Traversal of Binary Trees----------------------------------- */
