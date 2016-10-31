@@ -1,5 +1,4 @@
 #include "bTree.h"
-#include <cassert>
 #include <vector>
 
 int main()
@@ -24,6 +23,13 @@ int main()
         assert(search1 == true);
         bool const search2 = t1.search(19);
         assert(search2 == false);
+        bool const search3 = t1.search(10);
+        assert(search3 == true);
+
+        int const max = t1.max();
+        assert(max == 18);
+        int const min = t1.min();
+        assert(min == 5);
 
         int dummy1 = 1;
     }

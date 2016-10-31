@@ -1,4 +1,5 @@
 #pragma once
+#include <cassert>
 #include <iostream>
 
 template <class T>
@@ -94,6 +95,22 @@ private:
             return search(node->m_rhs, value);
     }
 
+    T max(bTreeNode<T> const*const node) const
+    {
+        assert(node);
+        if(node->m_rhs)
+            return max(node->m_rhs);
+        return node->m_val;
+    }
+
+    T min(bTreeNode<T> const*const node) const
+    {
+        assert(node);
+        if(node->m_lhs)
+            return min(node->m_lhs);
+        return node->m_val;
+    }
+
     bTreeNode<T>   *m_root;
 
 public:
@@ -101,6 +118,18 @@ public:
     void insert( T const&  value )
     {
         m_root = insert(m_root, value);
+    }
+
+    /* Max will be RHS, RHS, RHS, etc */
+    T max() const
+    {
+        return max(m_root);
+    }
+
+    /* Min will be LHS, LHS, LHS, etc */
+    T min() const
+    {
+        return min(m_root);
     }
 
     /* We search the thing anyway on insert. */
