@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 
@@ -111,6 +112,17 @@ private:
         return node->m_val;
     }
 
+    int height(bTreeNode<T> const*const node) const
+    {
+        if(!node)
+            return -1; //leaf nodes will get an std::max(0,0) + 1, so 
+                       //this -1 will balance that out to the proper '0' answer
+
+        int const height_lhs = height(node->m_lhs);
+        int const height_rhs = height(node->m_rhs);
+        return std::max(height_lhs, height_rhs) + 1; //increment count by one edge for this node
+    }
+
     bTreeNode<T>   *m_root;
 
 public:
@@ -214,9 +226,14 @@ public:
     }
 
     /* Breadth first traversal */
-    void breadthFirst_LevelOrderSearch()
+    void breadthFirst_LevelOrderSearch() const
     {
         
+    }
+
+    int height() const
+    {
+        return height(m_root);
     }
 
     /* -----------------------------Traversal of Binary Trees----------------------------------- */

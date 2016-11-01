@@ -1,6 +1,7 @@
 #include "bTree.h"
 #include <vector>
 
+
 int main()
 {
     {
@@ -30,6 +31,14 @@ int main()
         assert(max == 18);
         int const min = t1.min();
         assert(min == 5);
+
+        size_t const height1 = t1.height();
+        assert(height1 == 2);
+
+        bTree<int> t2;
+        //an empty tree has a height of -1. height is defined as the path from the root to the farthest node.
+        int const height2 = t2.height();
+        assert(height2 == -1);
 
         int dummy1 = 1;
     }
