@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include <queue>
 
 template <class T>
 class bTree
@@ -47,22 +48,33 @@ private:
 
     void inOrder(bTreeNode<T> const*const node) const
     {
-        if(!node)
-            return;
-
-        inOrder(node->m_lhs);
-        std::cout << node->m_val << "\n";
-        inOrder(node->m_rhs);
+        if(node)
+        {
+            inOrder(node->m_lhs);
+            std::cout << node->m_val << "\n";
+            inOrder(node->m_rhs);
+        }
     }
 
     void postOrder(bTreeNode<T> const*const node) const
     {
-        if(!node)
-            return;
+        if(node)
+        {
+            postOrder(node->m_lhs);
+            postOrder(node->m_rhs);
+            std::cout << node->m_val << "\n";
+        }
+    }
 
-        postOrder(node->m_lhs);
-        postOrder(node->m_rhs);
-        std::cout << node->m_val << "\n";
+    /* For breadth-first traversal, we can take advantage of a queue, as links
+       are not directly available to traverse levels with only the container
+       instrumentation. */
+    void levelOrder(bTreeNode<T> const*const node) const
+    {
+        if(node)
+        {
+            std::queue<bTreeNode<T>*> nodeq;
+        }
     }
 
     /* Recursive insert. Don't expose the node struct to the API */
@@ -228,7 +240,21 @@ public:
     /* Breadth first traversal */
     void breadthFirst_LevelOrderSearch() const
     {
-        
+        if(m_root)
+        {
+            std::queue<bTreeNode<T>*> nodeq;
+            nodeq.push(m_root);
+            while(!nodeq.empty())
+            {
+                bTreeNode<T> const*const cur = nodeq.front();
+                std::cout << cur->m_val << "\n";
+                nodeq.pop();
+                if(cur->m_lhs)
+                    nodeq.push(cur->m_lhs);
+                if(cur->m_rhs)
+                    nodeq.push(cur->m_rhs);
+            }
+        }
     }
 
     int height() const

@@ -17,8 +17,9 @@ int main()
             t1.insert(elm);
 
         //t1.depthFirst_PreOrderTraverseSearch();
-        t1.depthFirst_InOrderTraverseSearch();
+        //t1.depthFirst_InOrderTraverseSearch();
         //t1.depthFirst_PostOrderTraverseSearch();
+        t1.breadthFirst_LevelOrderSearch();
 
         bool const search1 = t1.search(6);
         assert(search1 == true);
