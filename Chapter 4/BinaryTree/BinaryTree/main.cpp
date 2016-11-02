@@ -5,9 +5,9 @@
 int main()
 {
     {
-        bTree<int> t1;
+        bTree<int> t1, t3;
 
-        std::vector<int> input = {10, 14, 6, 11, 8, 18, 5};
+        std::vector<int> input = {10, 14, 6, 11, /*8,*/ 18, 5};
         /*  10
           /   \
          6    14
@@ -19,7 +19,13 @@ int main()
         //t1.depthFirst_PreOrderTraverseSearch();
         //t1.depthFirst_InOrderTraverseSearch();
         //t1.depthFirst_PostOrderTraverseSearch();
-        t1.breadthFirst_LevelOrderSearch();
+        //t1.breadthFirst_LevelOrderSearch();
+
+        t1.insertAt(13,6);
+        t1.depthFirst_InOrderTraverseSearch();
+
+        bool const isBST0 = t3.isBST();
+        assert(!isBST0);
 
         bool const search1 = t1.search(6);
         assert(search1 == true);
@@ -40,6 +46,11 @@ int main()
         //an empty tree has a height of -1. height is defined as the path from the root to the farthest node.
         int const height2 = t2.height();
         assert(height2 == -1);
+
+        bool const isBST1 = t1.isBST();
+        assert(isBST1);
+
+        //std::vector<int> input2 = {3, 2, 5, 1};
 
         int dummy1 = 1;
     }

@@ -77,6 +77,19 @@ private:
         }
     }
 
+    bTreeNode<T>* insertWrong( bTreeNode<T>      *node,
+                               T const&          value )
+    {
+        if(node)
+        {
+            node->m_lhs = insertWrong(node->m_lhs, value);
+        }
+        else
+            node = new bTreeNode<T>(value);
+
+        return node;
+    }
+
     /* Recursive insert. Don't expose the node struct to the API */
     bTreeNode<T>* insert( bTreeNode<T>    *node,
                           T const&        value )
@@ -92,6 +105,23 @@ private:
         {
             node = new bTreeNode<T>(value);
         }
+        return node;
+    }
+
+    bTreeNode<T>* find( bTreeNode<T>    *node,
+                        T const&       searchVal )
+    {
+        if(node)
+        {
+            if(searchVal < node->m_val)
+                return node->m_lhs = find(node->m_lhs, searchVal);
+            else if(node->m_val < searchVal)
+                return node->m_rhs = find(node->m_rhs, searchVal);
+            else
+                return node;
+        }
+
+        //assert?
         return node;
     }
 
@@ -135,6 +165,32 @@ private:
         return std::max(height_lhs, height_rhs) + 1; //increment count by one edge for this node
     }
 
+    /* This simple recursive check for BST actually only looks at subtrees. It is subtlely incorrect.
+       To fix, we need to track the state of the larger tree, i.e., the values at nodes along the height
+       from the leaf nodes of the subtree to the root of the entire tree. */
+    bool isBST(bTreeNode<T> const*const node) const
+    {
+        if(node)
+        {
+            if(node->m_lhs)
+            {
+                if(node->m_val < node->m_lhs->m_val)// <= for duplicates
+                    return false;
+                return isBST(node->m_lhs);
+            }
+            if(node->m_rhs)
+            {
+                if(node->m_rhs->m_val < node->m_val)// <= for duplicates
+                    return false;
+                return isBST(node->m_lhs);
+            }
+            return true;
+            //if you have a leaf node where NODE is populated but lhs and rhs are nullptr, what happens here? is this a missing return path??
+        }
+        else
+            return true;//what IS an empty tree, is it BST? technically?
+    }
+
     bTreeNode<T>   *m_root;
 
 public:
@@ -142,6 +198,23 @@ public:
     void insert( T const&  value )
     {
         m_root = insert(m_root, value);
+    }
+
+    void insertAt( T const& insertVal,
+                   T const& nodeToMakeParent )
+    {
+        bTreeNode<T> *parent = find(m_root, nodeToMakeParent);
+        if(!parent)
+            return;
+        if(!parent->m_lhs)
+            parent->m_lhs = new bTreeNode<T>(insertVal);
+        else if(!parent->m_rhs)
+            parent->m_rhs = new bTreeNode<T>(insertVal);
+    }
+
+    void insertWrong( T const& value )
+    {
+        m_root = insertWrong(m_root, value);
     }
 
     /* Max will be RHS, RHS, RHS, etc */
@@ -256,13 +329,19 @@ public:
             }
         }
     }
+    /* -----------------------------Traversal of Binary Trees----------------------------------- */
 
     int height() const
     {
         return height(m_root);
     }
 
-    /* -----------------------------Traversal of Binary Trees----------------------------------- */
+    /* This container is, of course, a BST, but if it were simply a BT, this check would indicate
+       whether it is ordered appropriately. */
+    bool isBST() const
+    {
+        return isBST(m_root);
+    }
 
     ~bTree()
     {
