@@ -24,7 +24,7 @@ int main()
         t1.insertAt(13,6);
         t1.depthFirst_InOrderTraverseSearch();
 
-        bool const isBST0 = t3.isBST();
+        bool const isBST0 = t1.isBST();
         assert(!isBST0);
 
         bool const search1 = t1.search(6);

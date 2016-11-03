@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include <limits>
 #include <queue>
 
 template <class T>
@@ -168,27 +169,19 @@ private:
     /* This simple recursive check for BST actually only looks at subtrees. It is subtlely incorrect.
        To fix, we need to track the state of the larger tree, i.e., the values at nodes along the height
        from the leaf nodes of the subtree to the root of the entire tree. */
-    bool isBST(bTreeNode<T> const*const node) const
+    bool isBST( bTreeNode<T> const*const node,
+                T const&                 min,
+                T const&                 max ) const
     {
         if(node)
         {
-            if(node->m_lhs)
-            {
-                if(node->m_val < node->m_lhs->m_val)// <= for duplicates
-                    return false;
-                return isBST(node->m_lhs);
-            }
-            if(node->m_rhs)
-            {
-                if(node->m_rhs->m_val < node->m_val)// <= for duplicates
-                    return false;
-                return isBST(node->m_lhs);
-            }
-            return true;
-            //if you have a leaf node where NODE is populated but lhs and rhs are nullptr, what happens here? is this a missing return path??
+            return min < node->m_val 
+                && isBST(node->m_lhs, min, node->m_val)
+                && node->m_val < max
+                && isBST(node->m_rhs, node->m_val, max);        
         }
         else
-            return true;//what IS an empty tree, is it BST? technically?
+            return true;//what IS an empty tree, is it BST?
     }
 
     bTreeNode<T>   *m_root;
@@ -340,7 +333,7 @@ public:
        whether it is ordered appropriately. */
     bool isBST() const
     {
-        return isBST(m_root);
+        return isBST(m_root, std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
     }
 
     ~bTree()
