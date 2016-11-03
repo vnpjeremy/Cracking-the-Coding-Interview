@@ -98,8 +98,8 @@ public:
         return node;
     }
 
-    bTreeNode<T>* find(bTreeNode<T>    *node,
-        T const&       searchVal)
+    bTreeNode<T>* find( bTreeNode<T>    *node,
+                        T const&       searchVal)
     {
         if(node)
         {
@@ -172,7 +172,7 @@ public:
     }
 
     void insertAt(T const& insertVal,
-        T const& nodeToMakeParent)
+                  T const& nodeToMakeParent)
     {
         bTreeNode<T> *parent = find(m_root, nodeToMakeParent);
         if(!parent)
