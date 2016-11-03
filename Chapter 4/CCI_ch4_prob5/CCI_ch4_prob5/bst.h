@@ -67,19 +67,8 @@ public:
         }
     }
 
-    /* For breadth-first traversal, we can take advantage of a queue, as links
-    are not directly available to traverse levels with only the container
-    instrumentation. */
-    void levelOrder(bTreeNode<T> const*const node) const
-    {
-        if(node)
-        {
-            std::queue<bTreeNode<T>*> nodeq;
-        }
-    }
-
-    bTreeNode<T>* insertWrong(bTreeNode<T>      *node,
-        T const&          value)
+    bTreeNode<T>* insertWrong( bTreeNode<T>      *node,
+                               T const&          value )
     {
         if(node)
         {
@@ -169,20 +158,9 @@ public:
     /* This simple recursive check for BST actually only looks at subtrees. It is subtlely incorrect.
     To fix, we need to track the state of the larger tree, i.e., the values at nodes along the height
     from the leaf nodes of the subtree to the root of the entire tree. */
-    bool isBST(bTreeNode<T> const*const node,
-        T const&                 min,
-        T const&                 max) const
-    {
-        if(node)
-        {
-            return min < node->m_val
-                && isBST(node->m_lhs, min, node->m_val)
-                && node->m_val < max
-                && isBST(node->m_rhs, node->m_val, max);
-        }
-        else
-            return true;//what IS an empty tree, is it BST?
-    }
+    bool isBST( bTreeNode<T> const*const node,
+                T const&                 min,
+                T const&                 max ) const;
 
     bTreeNode<T>   *m_root;
 
@@ -268,6 +246,9 @@ public:
         postOrder(m_root);
     }
 
+    /* For breadth-first traversal, we can take advantage of a queue, as links
+    are not directly available to traverse levels with only the container
+    instrumentation. */
     /* Breadth first traversal */
     void breadthFirst_LevelOrderSearch() const
     {
@@ -296,10 +277,7 @@ public:
 
     /* This container is, of course, a BST, but if it were simply a BT, this check would indicate
     whether it is ordered appropriately. */
-    bool isBST() const
-    {
-        return isBST(m_root, std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
-    }
+    bool isBST() const;
 
     ~bTree()
     {
