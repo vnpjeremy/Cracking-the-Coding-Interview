@@ -5,6 +5,8 @@
    
    Solutions by: vnpjeremy*/
 
+#include "bst.h"
+
 /* A graph G is an ordered pair of a set of V vertices and E edges 
    G = (V,E) 
    
@@ -20,6 +22,7 @@
    A 'trail' is a walk except repeated vertices are allowed, but not edges.
    
    A graph with no cycle is acyclic. A tree is a directed acyclic graph. (DAG) */
+
 int main()
 {
     /* Note that a graph will be programmatically implemented differently than
@@ -27,4 +30,19 @@ int main()
        not a non-connected series of N (2, in BST) 
        
        Note also that a BT is not strongly connected. */
+
+    bTree<int>       tree1;
+    std::vector<int> input = {99, 50, 36, 25, 9, 28, 39, 33, 130, 149, 115, 101, 120, 160, 140};
+        /*        99
+           /              \
+          50              130
+        /    \         /       \
+       25     36      115       149 
+      /  \   /  \    /   \     /   \ 
+     9   28 33  39  101  120 140   160
+      */
+    for(auto elm : input)
+        tree1.insert(elm);
+
+    int dummy = 0;
 }
