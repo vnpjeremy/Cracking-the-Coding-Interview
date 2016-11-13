@@ -73,7 +73,23 @@ void bTree<T>::DSW_balance()
 template <class T>
 void bTree<T>::DSW_treeToVine()
 {
-
+    if(m_root)
+    {
+        bTreeNode<T>* gp = m_root, *par = m_root->m_rhs;
+        while(par)
+        {
+            if(par->m_lhs)
+            {
+                rotateRight(gp, par, par->m_lhs);
+                par = gp->m_rhs;
+            }
+            else
+            {
+                gp = par;
+                par = par->m_rhs;
+            }
+        }
+    }
 }
 
 int main()
@@ -152,13 +168,13 @@ int main()
                 /  \
                19  30
     */
-
+#if 0
     bTree<int>::bTreeNode<int>* GP = rotateTree.find(rotateTree.m_root, 10);
     bTree<int>::bTreeNode<int>* Par = rotateTree.find(rotateTree.m_root, 20);
     bTree<int>::bTreeNode<int>* Ch = rotateTree.find(rotateTree.m_root, 15);
-
     rotateTree.rotateRight(GP, Par, Ch);
-
+#endif
+    rotateTree.DSW_balance();
 
     int dummy = 0;
 }
