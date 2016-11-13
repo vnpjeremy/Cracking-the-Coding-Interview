@@ -51,6 +51,10 @@ void bTree<T>::rotateRight( bTreeNode<T>* grandParent,
                             bTreeNode<T>* parent,
                             bTreeNode<T>* child )
 {
+    //check null for GP
+    grandParent->m_rhs = child;    //Grandparent of child becomes the child's parent
+    parent->m_lhs = child->m_rhs;  //Right subtree of child becomes left subtree of parent
+    child->m_rhs = parent;         //Now that the RHS of child is used, replace that with its unused parent
 
 }
 
@@ -136,6 +140,25 @@ int main()
     bTree<int>       rotateTree;
     for(auto i : rotateData)
         rotateTree.insert(i);
+
+    /*
+        After rotating, the tree should look like this:
+
+            10
+              \
+              15
+             /  \
+            14   20
+                /  \
+               19  30
+    */
+
+    bTree<int>::bTreeNode<int>* GP = rotateTree.find(rotateTree.m_root, 10);
+    bTree<int>::bTreeNode<int>* Par = rotateTree.find(rotateTree.m_root, 20);
+    bTree<int>::bTreeNode<int>* Ch = rotateTree.find(rotateTree.m_root, 15);
+
+    rotateTree.rotateRight(GP, Par, Ch);
+
 
     int dummy = 0;
 }
