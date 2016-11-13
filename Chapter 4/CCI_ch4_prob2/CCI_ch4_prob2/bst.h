@@ -67,17 +67,6 @@ public:
         }
     }
 
-    /* For breadth-first traversal, we can take advantage of a queue, as links
-    are not directly available to traverse levels with only the container
-    instrumentation. */
-    void levelOrder(bTreeNode<T> const*const node) const
-    {
-        if(node)
-        {
-            std::queue<bTreeNode<T>*> nodeq;
-        }
-    }
-
     bTreeNode<T>* insertWrong(bTreeNode<T>      *node,
         T const&          value)
     {
@@ -110,7 +99,7 @@ public:
     }
 
     bTreeNode<T>* find(bTreeNode<T>    *node,
-        T const&       searchVal)
+                       T const&       searchVal) const
     {
         if(node)
         {
@@ -127,7 +116,7 @@ public:
     }
 
     bool search(bTreeNode<T> const*const node,
-        T const&                 value) const
+                T const&                 value) const
     {
         if(!node)
             return false;
@@ -322,6 +311,16 @@ public:
             }
         }
     }
+
+    bool BFS(bTreeNode<T> const* node, T const& val) const;
+
+    void DSW_balance();
+    void DSW_treeToVine();
+
+    void rotateRight( bTreeNode<T>* grandParent,
+                      bTreeNode<T>* parent,
+                      bTreeNode<T>* child );
+
     /* -----------------------------Traversal of Binary Trees----------------------------------- */
 
     int height() const
