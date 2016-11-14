@@ -316,6 +316,7 @@ public:
 
     void DSW_balance();
     void DSW_treeToVine();
+    void DSW_vineToTree();
 
     void rotateRight( bTreeNode<T>* grandParent,
                       bTreeNode<T>* parent,

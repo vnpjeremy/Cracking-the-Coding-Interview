@@ -63,11 +63,19 @@ void bTree<T>::rotateRight( bTreeNode<T>* grandParent,
    a linked list, i.e., a tree with only RHS or LHS nodes. This is achieved
    through rotations. Then a balanced tree is created from the 'backbone' that
    has been created. */
+
+
 template <class T>
 void bTree<T>::DSW_balance()
 {
     DSW_treeToVine();
-    //vine-to-tree
+    DSW_vineToTree();
+}
+
+template <class T>
+void bTree<T>::DSW_vineToTree()
+{
+
 }
 
 template <class T>
